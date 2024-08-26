@@ -1,4 +1,4 @@
-package com.reactnativetemplate
+package io.github.panchonsoto
 
 import android.app.Application
 import com.facebook.react.PackageList
