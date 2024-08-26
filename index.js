@@ -3,7 +3,7 @@
  */
 
 import {AppRegistry} from 'react-native';
-import { ReactNativeTemplateApp } from './src/ReactNativeTemplateApp';
+import { App } from './src/App';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => ReactNativeTemplateApp);
+AppRegistry.registerComponent(appName, () => App);

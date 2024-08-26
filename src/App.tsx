@@ -6,7 +6,7 @@ import { StackNavigator } from './presentation/navigator/StackNavigator';
 
 
 // !App name
-export const ReactNativeTemplateApp = () => {
+export const App = () => {
   return (
     <NavigationContainer>
       <StackNavigator />
