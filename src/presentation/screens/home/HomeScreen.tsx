@@ -31,7 +31,7 @@ export const HomeScreen = () => {
 
       <View style={{ height: 10 }} />
 
-      <Text style={{ color: colors.text }}>
+      <Text style={{ color: colors.liteColor }}>
         {JSON.stringify(colors, null, 2)}
       </Text>
 
