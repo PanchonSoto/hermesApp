@@ -1,6 +1,6 @@
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { RootTabParams } from '../../router/TabNavigator';
+import { RootTabParams } from '../../router/Tabs/TabNavigator';
 import { View } from 'react-native';
 
 
@@ -15,16 +15,16 @@ export const TabBarIcon = ({ routeName, focused, color, size }: IconProps) => {
   let iconName: string = routeName.name;
 
   switch (routeName.name) {
-    case 'Home':
+    case 'HomeStack':
       iconName = focused ? 'home' : 'home-outline';
       break;
-    case 'Account':
-      iconName = focused ? 'person' : 'person-outline';
+    case 'WishListStack':
+      iconName = focused ? 'heart' : 'heart-outline';
       break;
-    case 'Cart':
+    case 'CartStack':
       iconName = focused ? 'cart' : 'cart-outline';
       break;
-    case 'Menu':
+    case 'MenuStack':
       iconName = focused ? 'grid' : 'grid-outline';
       break;
     default:

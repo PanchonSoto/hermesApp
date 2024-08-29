@@ -1,39 +1,24 @@
-import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+
 
 import { CustomView } from '../../components/ui/CustomView';
-import { Title } from '../../components/ui/Title';
 import { Button } from '../../components/ui/Button';
-import { useContext } from 'react';
-import { ThemeContext } from '../../context/ThemeContext';
+
+import { HomeScreenStackParams } from '../../router/Stack/HomeStackNavigator';
 
 
 export const HomeScreen = () => {
 
-  const { setTheme, currentTheme, colors } = useContext(ThemeContext);
-
+  const navigation = useNavigation<NavigationProp<HomeScreenStackParams>>();
 
   return (
     <CustomView style={{padding:5}}>
-      <Title text={`Cambiar thema: ${currentTheme}`} safe />
+
 
       <Button
-        text="light"
-        onPress={() => setTheme('light')}
+       text="Go to Products"
+       onPress={() => navigation.navigate('Product', { productId: '123' })}
       />
-
-      <View style={{ height: 10 }} />
-
-      <Button
-        text="dark"
-        onPress={() => setTheme('dark')}
-      />
-
-      <View style={{ height: 10 }} />
-
-      <Text style={{ color: colors.liteColor }}>
-        {JSON.stringify(colors, null, 2)}
-      </Text>
 
     </CustomView>
   );

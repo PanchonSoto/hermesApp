@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AppRootStackParams } from '../../router/AppStackNavigator';
+import { AppRootStackParams } from '../../router/Stack/HomeStackNavigator';
 import { Button } from '../../components/ui/Button';
 
 

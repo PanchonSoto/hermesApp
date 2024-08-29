@@ -3,21 +3,23 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 
-import { ThemeContext } from "../context/ThemeContext";
-import { HomeScreen } from "../screens/home/HomeScreen";
-import { AccountScreen } from "../screens/Account/AccountScreen";
-import { CartScreen } from "../screens/Cart/CartScreen";
-import { MenuScreen } from "../screens/Menu/MenuScreen";
-import { TabBarIcon } from "../components/router/TabIcon";
+import { ThemeContext } from "../../context/ThemeContext";
+
+import { TabBarIcon } from "../../components/router/TabIcon";
+
+import { HomeStackNavigator } from "../Stack/HomeStackNavigator";
+import { WishListStackNavigator } from "../Stack/WishListStackNavigator";
+import { CartStackNavigator } from "../Stack/CartStackNavigator";
+import { MenuStackNavigator } from "../Stack/MenuStackNavigator";
 
 
 
 
 export type RootTabParams = {
-    Home: undefined;
-    Account: undefined;
-    Cart: undefined;
-    Menu: undefined;
+    HomeStack: undefined;
+    WishListStack: undefined;
+    CartStack: undefined;
+    MenuStack: undefined;
 }
 
 
@@ -50,10 +52,10 @@ export const TabNavigator = () => {
             })}
         >
 
-            <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarBadge: 4, }} />
-            <Tab.Screen name="Account" component={AccountScreen} />
-            <Tab.Screen name="Cart" component={CartScreen} />
-            <Tab.Screen name="Menu" component={MenuScreen} />
+            <Tab.Screen name="HomeStack"  component={HomeStackNavigator} options={{ tabBarBadge: 4, tabBarLabel: 'Home' }} />
+            <Tab.Screen name="WishListStack" component={WishListStackNavigator} options={{ tabBarLabel: 'Wish List' }}/>
+            <Tab.Screen name="CartStack" component={CartStackNavigator} options={{ tabBarLabel: 'Cart' }}/>
+            <Tab.Screen name="MenuStack" component={MenuStackNavigator} options={{ tabBarLabel: 'Menu' }}/>
         </Tab.Navigator>
     );
 }
