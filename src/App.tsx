@@ -1,5 +1,6 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../gesture-handler';
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from './presentation/context/ThemeContext';
 
