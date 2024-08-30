@@ -28,7 +28,7 @@ export const TabBarIcon = ({ routeName, focused, color, size }: IconProps) => {
       iconName = focused ? 'grid' : 'grid-outline';
       break;
     default:
-      iconName = 'circle';
+      iconName = 'apps';
   }
 
 

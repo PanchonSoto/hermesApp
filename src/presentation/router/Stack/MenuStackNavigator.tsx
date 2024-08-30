@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-import { MenuScreen } from '../../screens/Menu/MenuScreen';
+import { MenuScreen } from '../../screens/menu/MenuScreen';
 
 
 
@@ -15,11 +15,11 @@ import { MenuScreen } from '../../screens/Menu/MenuScreen';
 
 
 
-export type CartStackParams = {
+export type MenuStackParams = {
   MenuScreen: undefined;
 }
 
-const MenuStack = createStackNavigator<CartStackParams>();
+const MenuStack = createStackNavigator<MenuStackParams>();
 
 export const MenuStackNavigator = () => {
   return (

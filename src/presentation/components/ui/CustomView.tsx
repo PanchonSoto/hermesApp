@@ -5,9 +5,9 @@ import { ThemeContext } from '../../context/ThemeContext';
 
 
 interface Props {
-    style?: StyleProp<ViewStyle>;
-    children?: ReactNode;
-    margin?: boolean;
+  style?: StyleProp<ViewStyle>;
+  children?: ReactNode;
+  margin?: boolean;
 }
 
 

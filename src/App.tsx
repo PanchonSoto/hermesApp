@@ -4,7 +4,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from './presentation/context/ThemeContext';
 
-import { TabNavigator } from './presentation/router/Tabs/TabNavigator';
+//import { TabNavigator } from './presentation/router/Tabs/TabNavigator';
+import { AuthProvider } from './presentation/providers/AuthProvider';
 
 
 
@@ -15,7 +16,8 @@ export const App = () => {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <TabNavigator />
+        {/* <TabNavigator /> */}
+        <AuthProvider />
       </ThemeProvider>
     </SafeAreaProvider>
   );

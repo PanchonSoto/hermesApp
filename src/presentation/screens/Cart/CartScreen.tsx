@@ -1,7 +1,8 @@
 import { View, Text, Pressable } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AppRootStackParams } from '../../router/Stack/HomeStackNavigator';
+
 import { Button } from '../../components/ui/Button';
+import { CartStackParams } from '../../router/Stack/CartStackNavigator';
 
 
 
@@ -10,14 +11,14 @@ import { Button } from '../../components/ui/Button';
 
 export const CartScreen = () => {
 
-  const  navigation = useNavigation<NavigationProp<AppRootStackParams>>();
+  const  navigation = useNavigation<NavigationProp<CartStackParams>>();
 
   return (
 
     <View style={{flex:1}}>
       <Text>CartScreen</Text>
       <Button
-       onPress={() => navigation.navigate('WishList')}
+       onPress={() => console.log('pressed')}
        text="Wishlist"
       />
     </View>

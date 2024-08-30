@@ -5,12 +5,13 @@ import { CustomView } from "../../components/ui/CustomView"
 import { Title } from "../../components/ui/Title";
 import { Button } from "../../components/ui/Button";
 import { ThemeContext } from "../../context/ThemeContext";
+import { useAuthStore } from "../../store/auth/useAuthStore";
 
 
 export const MenuScreen = () => {
 
   const { setTheme, currentTheme, colors } = useContext(ThemeContext);
-
+  const { logout } = useAuthStore();
 
 
 
@@ -25,14 +26,18 @@ export const MenuScreen = () => {
       />
 
       <View style={{ height: 10 }} />
-
       <Button
         text="dark"
         onPress={() => setTheme('dark')}
       />
 
       <View style={{ height: 10 }} />
+      <Button
+        text="Logout"
+        onPress={logout}
+      />
 
+      <View style={{ height: 10 }} />
       <Text style={{ color: colors.liteColor }}>
         {JSON.stringify(colors, null, 2)}
       </Text>
