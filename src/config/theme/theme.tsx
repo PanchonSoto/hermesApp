@@ -11,7 +11,7 @@ export interface ThemeColors {
 }
 
 export const colors: ThemeColors = {
-  primary: "#5856D6",
+  primary: "#3F51B5",
   text: "black",
 
   background: "#F3F2F7",
@@ -22,7 +22,7 @@ export const colors: ThemeColors = {
 };
 
 export const lightColors: ThemeColors = {
-  primary: "#5856D6",
+  primary: "#3F51B5",
   text: "black",
 
   background: "#F3F2F7",
@@ -45,16 +45,25 @@ export const darkColors: ThemeColors = {
 
 export const globalStyles = StyleSheet.create({
   title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    // color: colors.text,
+    fontSize:32,
+    fontWeight:'700',
+    color:'#1D2A32',
+    marginBottom:6
   },
   subTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize:15,
+    fontWeight:'400',
+    color:'#929292'
+    // fontSize: 20,
+    // fontWeight: "bold",
     // color: colors.text,
   },
-
+  inputLbl: {
+    fontSize:17,
+    fontWeight:'600',
+    color:'#222',
+    marginBottom:8,
+  },
   input: {
     height:40,
     margin:12,
@@ -64,7 +73,12 @@ export const globalStyles = StyleSheet.create({
     borderRadius:10,
     // color: colors.text,
   },
-
+  btnText: {
+    fontSize:18,
+    lineHeight:26,
+    fontWeight:'600',
+    color:'#fff'
+  },
   mainContainer: {
     flex: 1,
     // backgroundColor: colors.background,

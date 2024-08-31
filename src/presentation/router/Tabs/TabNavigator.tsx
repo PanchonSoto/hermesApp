@@ -52,9 +52,9 @@ export const TabNavigator = () => {
             })}
         >
 
-            <Tab.Screen name="HomeStack"  component={HomeStackNavigator} options={{ tabBarBadge: 4, tabBarLabel: 'Home' }} />
+            <Tab.Screen name="HomeStack"  component={HomeStackNavigator} options={{ tabBarBadgeStyle:{backgroundColor:'#E91E63'}, tabBarLabel: 'Home', headerShown:false }} />
             <Tab.Screen name="WishListStack" component={WishListStackNavigator} options={{ tabBarLabel: 'Wish List' }}/>
-            <Tab.Screen name="CartStack" component={CartStackNavigator} options={{ tabBarLabel: 'Cart' }}/>
+            <Tab.Screen name="CartStack" component={CartStackNavigator} options={{ tabBarLabel: 'Cart', tabBarBadge: 4, }}/>
             <Tab.Screen name="MenuStack" component={MenuStackNavigator} options={{ tabBarLabel: 'Menu' }}/>
         </Tab.Navigator>
     );

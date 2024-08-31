@@ -30,7 +30,8 @@ export const ThemeProvider = ({children}:PropsWithChildren) => {
     const colors = isDark ? darkColors : lightColors;
 
     useEffect(() => {
-        setcurrentTheme(colorScheme ?? 'light');
+        // setcurrentTheme(colorScheme ?? 'light');
+        setcurrentTheme('light');
     }, [colorScheme]);
 
 
