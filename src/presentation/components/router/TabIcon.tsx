@@ -25,7 +25,7 @@ export const TabBarIcon = ({ routeName, focused, color, size }: IconProps) => {
       iconName = focused ? 'cart' : 'cart-outline';
       break;
     case 'MenuStack':
-      iconName = focused ? 'grid' : 'grid-outline';
+      iconName = focused ? 'menu' : 'menu-outline';
       break;
     default:
       iconName = 'apps';

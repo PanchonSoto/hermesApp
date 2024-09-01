@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 export interface ThemeColors {
   primary: string;
+  secondary?: string,
   text: string;
   background: string;
   cardBackground: string;
@@ -19,6 +20,7 @@ export const colors: ThemeColors = {
   buttonTextColor: "white",
   liteColor: "#40444b",
   disabled: "#5856d626",
+  // secondary: "#E91E63"
 };
 
 export const lightColors: ThemeColors = {

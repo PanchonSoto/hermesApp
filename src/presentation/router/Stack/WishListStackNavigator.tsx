@@ -30,7 +30,7 @@ export const WishListStackNavigator = () => {
       },
      }} */
     >
-      <WishListStack.Screen name="WishList" component={WhishListScreen} />
+      <WishListStack.Screen name="WishList" component={WhishListScreen} options={{headerShown:false}}/>
       <WishListStack.Screen name="Product" component={ProductComponent} />
     </WishListStack.Navigator>
   );
