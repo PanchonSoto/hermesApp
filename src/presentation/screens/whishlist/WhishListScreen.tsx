@@ -68,7 +68,7 @@ export const WhishListScreen: React.FC = () => {
 
 
 
-    <View style={{ flex: 1 }}>
+    <CustomView>
       {/* search bar */}
       <View style={styles.searchWrapper}>
         <Pressable onPress={() => console.log('Search')}>
@@ -89,23 +89,23 @@ export const WhishListScreen: React.FC = () => {
       </View>
       <ScrollView>
         {/* todo cambiar a customview */}
-        <CustomView style={{ paddingHorizontal: 20 }}>
+        <View style={{ paddingHorizontal: 20 }}>
 
-          <Text style={[globalStyles.title, { marginTop: 10 }]}>Wishlist</Text>
+          <Text style={styles.title}>Wishlist</Text>
           <Pressable
             onPress={() => navigation.navigate('Product', { productId: '123' })}>
-            <View style={styles.products}>
-              <FlatList
-                data={products}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <WishlistItem product={item} />}
-                scrollEnabled={false}
-              />
-            </View>
+
+            <FlatList
+              data={products}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => <WishlistItem product={item} />}
+              scrollEnabled={false}
+            />
+
           </Pressable>
-        </CustomView>
+        </View>
       </ScrollView>
-    </View>
+    </CustomView>
 
 
   );
@@ -113,6 +113,15 @@ export const WhishListScreen: React.FC = () => {
 
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    lineHeight: 22,
+    color: '#121a26',
+    marginTop: 15,
+    marginBottom: 10,
+    paddingHorizontal: 16,
+  },
   search: {
     position: 'relative',
     backgroundColor: '#efefef',
@@ -172,15 +181,14 @@ const styles = StyleSheet.create({
     width: '60%',
   },
   products: {
-    borderRadius:10,
-    marginBottom:20,
+    // borderRadius:8,
+    // marginBottom:20,
   },
   product: {
     backgroundColor: '#fff',
     borderRadius: 5,
-    marginTop: 20,
-    marginBottom: 5,
-    elevation: 2,
+    marginBottom: 10,
+    elevation: 1,
   },
   productTitle: {
     fontSize: 16,
