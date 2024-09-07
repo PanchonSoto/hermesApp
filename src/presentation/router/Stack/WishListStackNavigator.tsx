@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { WhishListScreen } from '../../screens/whishlist/WhishListScreen';
-import { ProductComponent } from '../../components/product/ProductComponent';
+import { ProductScreen } from '../../screens/product/ProductScreen';
 
 
 
@@ -31,7 +31,7 @@ export const WishListStackNavigator = () => {
      }} */
     >
       <WishListStack.Screen name="WishList" component={WhishListScreen} options={{headerShown:false}}/>
-      <WishListStack.Screen name="Product" component={ProductComponent} />
+      <WishListStack.Screen name="Product" component={ProductScreen} />
     </WishListStack.Navigator>
   );
 }
