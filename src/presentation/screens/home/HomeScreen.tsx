@@ -1,16 +1,17 @@
 import { Animated, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
-// import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React, { useEffect, useRef, useState } from 'react';
+// import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 import { CustomView } from '../../components/ui/CustomView';
 
 
-import { HomeScreenStackParams } from '../../router/Stack/HomeStackNavigator';
-import { CustomIcon } from '../../components/ui/CustomIcon';
 import { FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeStoreApi';
+
+import { HomeScreenStackParams } from '../../router/Stack/HomeStackNavigator';
 import { globalStyles } from '../../../config/theme/theme';
+import { SearchTop } from '../../components/ui/SearchTop';
 
 
 
@@ -44,23 +45,8 @@ export const HomeScreen = () => {
 
     <View style={{flex:1}}>
       {/* search bar */}
-      <View style={styles.searchWrapper}>
-        <Pressable onPress={() => console.log('Search')}>
-          <View style={styles.search}>
-            <View style={styles.searchIcon}>
-              <CustomIcon
-                color="#848484"
-                name="search"
-                size={17}
-              />
-            </View>
+      <SearchTop />
 
-            <View style={styles.searchControl}>
-              <Text>Search in HermesHub...</Text>
-            </View>
-          </View>
-        </Pressable>
-      </View>
       <CustomView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} >
 
@@ -136,46 +122,6 @@ const styles = StyleSheet.create({
     // flexShrink: 1,
     // flexBasis: 0,
   },
-  /** Search */
-  search: {
-    position: 'relative',
-    backgroundColor: '#efefef',
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#3F51B5',
-  },
-  searchWrapper: {
-    paddingTop: 15,
-    paddingHorizontal: 16,
-    paddingBottom: 15,
-    // marginTop: 5,
-    borderBottomWidth: 1,
-    borderColor: '#3F51B5', //efefef
-    backgroundColor: '#3F51B5',
-    width: '100%'
-  },
-  searchIcon: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    width: 34,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 2,
-  },
-  searchControl: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    paddingLeft: 34,
-    width: '100%',
-    fontSize: 16,
-    fontWeight: '500'
-  },
-
   title: {
     paddingHorizontal: 24,
     fontSize: 32,

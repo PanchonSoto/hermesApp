@@ -31,7 +31,7 @@ export const WishListStackNavigator = () => {
      }} */
     >
       <WishListStack.Screen name="WishList" component={WhishListScreen} options={{headerShown:false}}/>
-      <WishListStack.Screen name="Product" component={ProductScreen} />
+      <WishListStack.Screen name="Product" component={ProductScreen} options={{gestureDirection:'horizontal-inverted',}}/>
     </WishListStack.Navigator>
   );
 }

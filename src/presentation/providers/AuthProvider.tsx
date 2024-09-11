@@ -1,12 +1,13 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 
-import { useAuthStore } from '../store/auth/useAuthStore';
-import { TabNavigator } from '../router/Tabs/TabNavigator';
 import { AuthStackNavigator } from '../router/Stack/AuthStackNavigator';
+import { RootStackNavigator } from '../router/Tabs/TabNavigator';
+
 import { FullScreenLoader } from '../components/ui/FullScreenLoader';
+import { useAuthStore } from '../store/auth/useAuthStore';
 
 
 type RootStackParams = {
@@ -49,7 +50,7 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
         <>
             {
                (isAuthenticated === 'authenticated')
-                ? <TabNavigator />
+                ? <RootStackNavigator />
                 : (isAuthenticated === 'checking'
                 ? <FullScreenLoader />
                 : <AuthStackNavigator/>)
