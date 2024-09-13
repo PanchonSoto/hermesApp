@@ -2,6 +2,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-nati
 
 import { CustomIcon } from "../../components/ui/CustomIcon";
 import { colors } from "../../../config/theme/theme"
+import { Button } from "../../components/ui/Button";
 
 
 
@@ -26,7 +27,7 @@ export const ProductScreen = () => {
           {/* product Title and icons */}
           <View style={{ marginTop: 20, flexDirection: 'row', borderBottomWidth: 2, borderColor: '#f0f0f0' }}>
             {/* product title */}
-            <View style={{ width: '80%',}}>
+            <View style={{ width: '80%', }}>
               <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum omnis sint illo similique, dicta molestias eos.</Text>
               {/* rate info */}
               <View style={{ flexDirection: 'row', marginTop: 5, alignItems: 'center' }}>
@@ -44,13 +45,16 @@ export const ProductScreen = () => {
             <View style={{ flex: 1, }} />
             {/* icon container */}
             <View style={{ padding: 5 }}>
-              <View style={{ borderWidth: 1, borderRadius: 100, padding: 8, borderColor: '#cccccc' }}>
-                <CustomIcon
-                  color="black"
-                  size={24}
-                  name="heart-outline"
-                />
-              </View>
+              <Button
+                // styles={styles.btn}
+                styleContainer={{borderWidth: 1, borderRadius: 100, padding: 8, borderColor: '#cccccc'}}
+                text=""
+                onPress={()=>{}}
+                icon="heart-outline"
+                iconSize={24}
+                iconColor="#000"
+              />
+
             </View>
           </View>
           {/* product color */}
@@ -64,64 +68,47 @@ export const ProductScreen = () => {
               size={19} />
           </View>
           {/* product quantity */}
-          <View style={{ flexDirection: 'row',borderColor: '#f0f0f0', paddingVertical: 12, width: "100%", alignItems: "center", justifyContent: "flex-start", }}>
+          <View style={{ flexDirection: 'row', borderColor: '#f0f0f0', paddingVertical: 12, width: "100%", alignItems: "center", justifyContent: "flex-start", }}>
             <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>Quantity</Text>
             <View style={{ flexGrow: 1, flexShrink: 1, flexBasis: 0, }} />
             {/* btn quantity */}
-            <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{ alignSelf: 'flex-end', backgroundColor: '#F3F2F7', borderTopLeftRadius: 8, borderBottomLeftRadius: 8, }}>
-              <View style={[styles.btn,]}>
-                <CustomIcon
-                  name="remove"
-                  size={16}
-                  color="#000"
-                />
-              </View>
-            </Pressable>
+            <Button
+             styles={styles.btn}
+             styleContainer={{alignSelf: 'flex-end', backgroundColor: '#efefef', borderTopLeftRadius: 8, borderBottomLeftRadius: 8,}}
+             text=""
+             onPress={()=>{}}
+             icon="remove"
+             iconSize={16}
+             iconColor="#000"
+            />
             {/* counter */}
-            <View style={{ alignSelf: 'flex-end', backgroundColor: '#F3F2F7' }}>
+            <View style={{ alignSelf: 'flex-end', backgroundColor: '#efefef' }}>
               <Text style={[styles.btn, { fontWeight: '600', color: '#000' }]}>1</Text>
             </View>
             {/* btn add */}
-            <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{ alignSelf: 'flex-end', backgroundColor: '#F3F2F7', borderTopRightRadius: 8, borderBottomRightRadius: 8 }}>
-              <View style={styles.btn}>
-                <CustomIcon
-                  name="add"
-                  size={16}
-                  color="#000"
-                />
-              </View>
-            </Pressable>
+            <Button
+             styles={styles.btn}
+             styleContainer={{alignSelf: 'flex-end', backgroundColor: '#efefef', borderTopRightRadius: 8, borderBottomRightRadius: 8,}}
+             text=""
+             onPress={()=>{}}
+             icon="add"
+             iconSize={16}
+             iconColor="#000"
+            />
           </View>
 
           {/* buttons */}
           <View style={styles.contentActions}>
-            <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{ paddingHorizontal: 6 }}>
-              <View style={styles.btnPrimary}>
-                <Text style={styles.btnPrimaryText}>Add to cart</Text>
-              </View>
-            </Pressable>
 
-            <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{paddingHorizontal: 6, marginBottom: 5, marginTop: 10 }}>
-              <View style={styles.btnPay}>
-                <Text style={styles.btnText}>Buy Now</Text>
-              </View>
-            </Pressable>
+            <View style={{ paddingHorizontal: 5 }}>
+              <Button onPress={() => { }} text="Add to cart"
+                styles={styles.btnPrimary} styleText={styles.btnPrimaryText} styleContainer={{ paddingHorizontal: 6 }}
+              />
+              <Button onPress={() => { }} text="Buy now"
+                styles={styles.btnPay} styleText={styles.btnPrimaryText} styleContainer={{ marginTop: 10 }}
+              />
+            </View>
+
           </View>
         </View>
       </View>
@@ -142,7 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop:50,
+    marginTop: 50,
     marginBottom: 50,
   },
   btnPay: {

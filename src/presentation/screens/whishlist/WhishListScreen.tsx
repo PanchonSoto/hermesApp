@@ -3,12 +3,13 @@ import { View, Text, FlatList, Image, Pressable, StyleSheet } from 'react-native
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { CustomView } from '../../components/ui/CustomView';
-import { colors } from '../../../config/theme/theme';
+import { colors, tabStyles } from '../../../config/theme/theme';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchTop } from '../../components/ui/SearchTop';
 
 
 import { WishListScreenStackParams } from '../../router/Stack/WishListStackNavigator';
+import { Button } from '../../components/ui/Button';
 
 interface Product {
   id: number;
@@ -28,32 +29,23 @@ const WishlistItem = ({ product }: { product: Product }) => (
   <View style={styles.product}>
 
     <View style={styles.productContainer}>
+
       <View style={styles.productImgContainer}>
-        <Image source={{ uri: product.imageUrl }} style={{ width: 170, height: 200, resizeMode: 'cover' }} />
+        <Image source={{ uri: product.imageUrl }} style={{ width: 150, height: 150, resizeMode: 'cover', }} />
       </View>
+
       <View style={styles.productInfo}>
         <Text style={styles.productTitle}>{product.name}</Text>
         <Text style={styles.productPrice}>$ {product.price}</Text>
 
         <View style={styles.contentActions}>
-          <Pressable
-            onPress={() => {
-              // handle onPress
-            }}
-            style={{ flex: 1, paddingHorizontal: 6, marginBottom: 5, marginTop: 40 }}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>Delete</Text>
-            </View>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              // handle onPress
-            }}
-            style={{ flex: 1, paddingHorizontal: 6 }}>
-            <View style={styles.btnPrimary}>
-              <Text style={styles.btnPrimaryText}>Add to cart</Text>
-            </View>
-          </Pressable>
+
+          <Button onPress={()=>{}} text="Delete"
+          styles={styles.btn} styleText={styles.btnText} styleContainer={{flex: 1, paddingHorizontal: 6, marginBottom: 5, marginTop: 40, width:'90%', alignSelf:'center'}}/>
+
+          <Button onPress={()=>{}} text="Add to cart"
+          styles={styles.btnPrimary} styleText={styles.btnPrimaryText} styleContainer={{flex: 1, paddingHorizontal: 6, marginBottom: 5, width:'90%', alignSelf:'center'}}/>
+
         </View>
       </View>
     </View>
@@ -71,11 +63,11 @@ export const WhishListScreen: React.FC = () => {
       {/* search bar */}
       <SearchTop />
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* todo cambiar a customview */}
-        <View style={{ paddingHorizontal: 20 }}>
+        <View style={{ paddingHorizontal: 10 }}>
 
-          <Text style={styles.title}>Wishlist</Text>
+          <Text style={tabStyles.title}>Wishlist</Text>
           <Pressable
             onPress={() => navigation.navigate('Product', { productId: '123' })}>
 
@@ -97,41 +89,45 @@ export const WhishListScreen: React.FC = () => {
 
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    lineHeight: 22,
-    color: '#121a26',
-    marginTop: 15,
-    marginBottom: 10,
-    paddingHorizontal: 16,
-  },
-
   productContainer: {
     // borderWidth:1,
     // borderColor: 'orange',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignContent:'center',
+    alignItems:'center',
+    // justifyContent: 'space-between',
     marginVertical: 20,
-    paddingHorizontal: 5,
+    // paddingHorizontal: 2,
   },
   productImgContainer: {
     // borderWidth:1,
     // borderColor: 'blue',
-    width: '40%',
-    alignSelf: 'center'
+    // width: '40%',
+    flex:1,
+    // alignSelf: 'center'
   },
   productInfo: {
     // borderWidth:1,
     // borderColor: 'red',
-    justifyContent: 'flex-start',
-    width: '60%',
+    // justifyContent: 'flex-start',
+    // width: '60%',
+    flex:2,
+    // paddingHorizontal:10,
+    marginLeft:15,
   },
   product: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 1,
+
     backgroundColor: '#fff',
     borderRadius: 5,
     marginBottom: 10,
-    elevation: 1,
   },
   productTitle: {
     fontSize: 16,

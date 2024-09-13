@@ -3,10 +3,11 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { CartStackParams } from '../../router/Stack/CartStackNavigator';
 
-import { colors, globalStyles } from '../../../config/theme/theme';
+import { colors, globalStyles, tabStyles } from '../../../config/theme/theme';
 import { CustomIcon } from '../../components/ui/CustomIcon';
 import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
+import { Button } from '../../components/ui/Button';
 
 
 
@@ -44,7 +45,7 @@ export const CartScreen = () => {
       <View style={styles.productContainer}>
 
         <View style={styles.productImgContainer}>
-          <Image source={{ uri: product.imageUrl }} style={{ width: 100, height: 100, resizeMode: 'cover' }} />
+          <Image source={{ uri: product.imageUrl }} style={{ width: 100, height: 100, resizeMode: 'cover', }} />
         </View>
 
         <View style={styles.productInfo}>
@@ -54,42 +55,44 @@ export const CartScreen = () => {
 
 
           <View style={styles.contentActions}>
+
             {/* btn rest */}
-            <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{ alignSelf: 'flex-end', backgroundColor: '#F3F2F7', borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}>
-              <View style={[styles.btn,]}>
-                <CustomIcon
-                  name="remove"
-                  size={16}
-                  color="#000"
-                />
-              </View>
-            </Pressable>
+            <Button
+              styles={styles.btn}
+              styleContainer={{  backgroundColor: '#efefef', borderTopLeftRadius: 8, borderBottomLeftRadius: 8, }}
+              text=""
+              onPress={() => { }}
+              icon="remove"
+              iconSize={16}
+              iconColor="#000"
+            />
             {/* counter */}
-            <View style={{ alignSelf: 'flex-end', backgroundColor: '#F3F2F7' }}>
+            <View style={{  backgroundColor: '#efefef' }}>
               <Text style={[styles.btn, { fontWeight: '600', color: '#000' }]}>1</Text>
             </View>
             {/* btn add */}
-            <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{ alignSelf: 'flex-end', backgroundColor: '#F3F2F7', borderTopRightRadius: 8, borderBottomRightRadius: 8 }}>
-              <View style={styles.btn}>
-                <CustomIcon
-                  name="add"
-                  size={16}
-                  color="#000"
-                />
-              </View>
-            </Pressable>
+            <Button
+              styles={styles.btn}
+              styleContainer={{  backgroundColor: '#efefef', borderTopRightRadius: 8, borderBottomRightRadius: 8, }}
+              text=""
+              onPress={() => { }}
+              icon="add"
+              iconSize={16}
+              iconColor="#000"
+            />
 
             <View style={{ flex: 1 }} />
             {/* btn delete */}
-            <Pressable
+            <Button
+              styles={styles.btn}
+              styleContainer={{ backgroundColor: '#efefef', borderRadius: 8, borderBottomRightRadius: 8, marginRight: 5 }}
+              text=""
+              onPress={() => { }}
+              icon="trash-outline"
+              iconSize={16}
+              iconColor="red"
+            />
+            {/* <Pressable
               onPress={() => {
                 // handle onPress
               }}
@@ -101,7 +104,7 @@ export const CartScreen = () => {
                   color="red"
                 />
               </View>
-            </Pressable>
+            </Pressable> */}
 
 
           </View>
@@ -113,17 +116,17 @@ export const CartScreen = () => {
   );
 
   return (
-    <CustomView style={{ flex: 1, }}>
+    <View style={{ flex: 1, }}>
 
       {/* search bar */}
       <SearchTop />
 
-      <CustomView style={{ paddingHorizontal: 15 }}>
+      <CustomView style={{ paddingHorizontal: 10 }}>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Text style={styles.title}>Your Cart (3)</Text>
+          <Text style={tabStyles.title}>Your Cart (3)</Text>
           <View style={{ flex: 1 }} />
-          <Text style={styles.title}>Total:{' '}
+          <Text style={tabStyles.title}>Total:{' '}
             <Text style={{ color: colors.primary }}>1400</Text>
           </Text>
         </View>
@@ -191,36 +194,42 @@ export const CartScreen = () => {
 
           {/* checkout */}
           <View style={styles.checkoutAction}>
-            <Pressable
+            <Button
+              onPress={() => { }}
+              styleContainer={styles.btnCheckout}
+              styleText={styles.btnCheckoutText}
+              text="Proced to checkout"
+            />
+            {/* <Pressable
               onPress={() => {
                 // handle onPress
               }}>
               <View style={styles.btnCheckout}>
                 <Text style={styles.btnCheckoutText}>Proced to checkout</Text>
               </View>
-            </Pressable>
+            </Pressable> */}
           </View>
         </ScrollView>
 
       </CustomView>
 
-    </CustomView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    lineHeight: 22,
-    color: '#121a26',
-    marginTop: 15,
-    marginBottom: 10,
-    paddingHorizontal: 16,
-  },
-
   /* products */
   product: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 1,
+
+    // paddingHorizontal:5,
     backgroundColor: '#fff',
     borderRadius: 5,
     marginTop: 5,
@@ -252,14 +261,20 @@ const styles = StyleSheet.create({
   productImgContainer: {
     // borderWidth:1,
     // borderColor: 'blue',
-    width: '25%',
-    alignSelf: 'center'
+    // width: '25%',
+    alignSelf: 'center',
+    alignItems:'center',
+    flex: 1,
+    paddingHorizontal:5,
   },
   productInfo: {
     // borderWidth:1,
     // borderColor: 'red',
-    justifyContent: 'flex-start',
-    width: '75%',
+    // justifyContent: 'flex-start',
+    // width: '75%',
+    flex: 3,
+    paddingHorizontal:5,
+    // marginLeft:15,
   },
 
   /* botones */
@@ -282,8 +297,8 @@ const styles = StyleSheet.create({
     // paddingVertical: 8,
     // paddingHorizontal: 16,
     // borderWidth: 1,
-    width: 40,
-    height: 30,
+    width: 35,
+    height: 35,
     // borderColor: 'red',
   },
 
@@ -354,25 +369,25 @@ const styles = StyleSheet.create({
   },
 
   /* checkout */
-  checkoutAction:{
-    marginBottom:30,
+  checkoutAction: {
+    marginBottom: 30,
   },
-  btnCheckout:{
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius:8,
-    paddingVertical:8,
-    paddingHorizontal:16,
-    borderWidth:1,
+  btnCheckout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderWidth: 1,
     backgroundColor: colors.primary,
     borderColor: colors.primary,
   },
-  btnCheckoutText:{
-    fontSize:17,
-    lineHeight:24,
-    fontWeight:'600',
-    color:'#fff',
+  btnCheckoutText: {
+    fontSize: 17,
+    lineHeight: 24,
+    fontWeight: '600',
+    color: '#fff',
   }
 
 

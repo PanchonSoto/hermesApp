@@ -1,15 +1,16 @@
-import { View, Text, useWindowDimensions, Alert, ScrollView, TextInput, SafeAreaView, Image, StyleSheet, KeyboardAvoidingView, Pressable, Platform } from 'react-native'
+import { View, Text, useWindowDimensions, Alert, ScrollView, TextInput, Image, StyleSheet, KeyboardAvoidingView, Pressable, Platform } from 'react-native'
 import React, { useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { CustomView } from '../../components/ui/CustomView'
-import { colors } from '../../../config/theme/theme';
+import { authStyles, colors, globalStyles } from '../../../config/theme/theme';
 import { AuthStackParams } from '../../router/Stack/AuthStackNavigator';
 import { useAuthStore } from '../../store/auth/useAuthStore';
+import { Button } from '../../components/ui/Button';
 
 
 
-const logo = require("../../../assets/logo/logo.png");
+const logo = require("../../../assets/logo/logoTall.png");
 
 
 
@@ -40,31 +41,31 @@ export const LoginScreen = () => {
 
   return (
     <ScrollView style={{backgroundColor:colors.background}}>
-      <CustomView style={styles.container}>
+      <CustomView style={globalStyles.container}>
 
 
-        <View style={styles.header}>
+        <View style={authStyles.header}>
           <Image
             alt="HermesHub Logo"
             resizeMode="contain"
-            style={styles.headerImg}
+            style={authStyles.headerImg}
             source={logo}
           />
-          <Text style={styles.title}>
+          <Text style={globalStyles.title}>
             Login in to <Text style={{color:'#075eec'}}>HermesHub</Text>
           </Text>
-          <Text style={styles.subtitle}>
+          <Text style={globalStyles.subtitle}>
             Get access to HermesHub store
           </Text>
         </View>
 
         {/*form */}
         <KeyboardAvoidingView behavior={Platform.OS==='ios' ? 'padding': undefined}>
-          <View style={styles.form}>
+          <View style={authStyles.form}>
 
-            <View style={styles.input}>
+            <View style={authStyles.input}>
               {/* email */}
-              <Text style={styles.inputLabel}>Email</Text>
+              <Text style={authStyles.inputLabel}>Email</Text>
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -73,32 +74,38 @@ export const LoginScreen = () => {
                 onChangeText={email=>setForm({...form,email})}
                 placeholder="email@example.com"
                 placeholderTextColor="#6b7280"
-                style={styles.inputControl}
+                style={authStyles.inputControl}
                 value={form.email}
               />
             </View>
 
-            <View style={styles.input}>
+            <View style={authStyles.input}>
             {/* password */}
-              <Text style={styles.inputLabel}>Password</Text>
+              <Text style={authStyles.inputLabel}>Password</Text>
                 <TextInput
                   autoCorrect={false}
                   clearButtonMode="while-editing"
                   onChangeText={password=>setForm({...form,password})}
                   placeholder="***********"
                   placeholderTextColor="#6b7280"
-                  style={styles.inputControl}
+                  style={authStyles.inputControl}
                   secureTextEntry={true}
                   value={form.password}
                 />
             </View>
 
-            <View style={styles.formAction}>
-              <Pressable onPress={onLogin}>
+            <View style={authStyles.formAction}>
+              {/* <Pressable onPress={onLogin}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Login</Text>
                 </View>
-              </Pressable>
+              </Pressable> */}
+              <Button
+                onPress={onLogin}
+                text="Login"
+                styles={authStyles.btn}
+                styleText={authStyles.btnText}
+              />
             </View>
 
           </View>
@@ -109,7 +116,7 @@ export const LoginScreen = () => {
                   style={{marginTop:'auto'}}
                   onPress={()=>navigation.navigate('RegisterScreen')}
                 >
-                  <Text style={styles.formFooter}>
+                  <Text style={authStyles.formFooter}>
                     Don't have an account?{' '}
                     <Text style={{textDecorationLine:'underline'}}>Sign up</Text>
                   </Text>
@@ -123,101 +130,4 @@ export const LoginScreen = () => {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical:24,
-    paddingHorizontal:0,
-    flexGrow:1,
-    flexShrink:1,
-    flexBasis:0
-  },
-  title: {
-    fontSize:31,
-    fontWeight:'700',
-    color:'#1D2A32',
-    marginBottom:6
-  },
-  subtitle: {
-    fontSize:15,
-    fontWeight:'500',
-    color:'#929292'
-  },
-  /** Header */
-  header: {
-    alignItems:'center',
-    justifyContent:'center',
-    marginVertical:50,
-  },
-  headerImg: {
-    width:80,
-    height:80,
-    alignSelf:'center',
-    marginBottom:36
-  },
-  /** Form */
-  form: {
-    marginBottom:24,
-    paddingHorizontal:24,
-    flexGrow:1,
-    flexShrink:1,
-    // flexBasis:1,
-  },
-  formAction: {
-    marginTop:4,
-    marginBottom:16,
-  },
-  formLink: {
-    fontSize:16,
-    fontWeight:'600',
-    color:'#075eec',
-    textAlign:'center',
-  },
-  formFooter: {
-    fontSize:15,
-    fontWeight:'600',
-    color:'#222',
-    marginBottom:8,
-  },
-  /** Input */
-  input: {
-    marginBottom:16
-  },
-  inputLabel: {
-    fontSize:17,
-    fontWeight:'600',
-    color:'#222',
-    marginBottom:8,
-  },
-  inputControl: {
-    height:50,
-    backgroundColor:'#fff',
-    paddingHorizontal:16,
-    borderRadius:12,
-    fontSize:15,
-    fontWeight:'500',
-    color:'#222',
-    borderWidth:1,
-    borderColor:'#C9D3DB',
-    borderStyle:'solid',
-  },
-  /** Button */
-  btn: {
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius:15,
-    paddingVertical:10,
-    paddingHorizontal:20,
-    borderWidth:1,
-    backgroundColor:'#075eec',
-    borderColor:'#075eec'
-  },
-  btnText: {
-    fontSize:18,
-    lineHeight:26,
-    fontWeight:'600',
-    color:'#fff'
-  },
-});
 

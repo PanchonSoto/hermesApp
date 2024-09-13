@@ -46,40 +46,44 @@ export const darkColors: ThemeColors = {
 };
 
 export const globalStyles = StyleSheet.create({
-  title: {
-    fontSize:32,
-    fontWeight:'700',
-    color:'#1D2A32',
-    marginBottom:6
+  container: {
+    paddingVertical: 50,
+    paddingHorizontal: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   },
-  subTitle: {
-    fontSize:15,
-    fontWeight:'400',
-    color:'#929292'
-    // fontSize: 20,
-    // fontWeight: "bold",
-    // color: colors.text,
+  title: {
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#1D2A32',
+    marginBottom: 5
+  },
+  subtitle: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: '#929292',
   },
   inputLbl: {
-    fontSize:17,
-    fontWeight:'600',
-    color:'#222',
-    marginBottom:8,
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#222',
+    marginBottom: 8,
   },
   input: {
-    height:40,
-    margin:12,
-    borderWidth:1,
-    padding:10,
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
     // borderColor: 'rgba(0,0,0,0.3)',
-    borderRadius:10,
+    borderRadius: 10,
     // color: colors.text,
   },
   btnText: {
-    fontSize:18,
-    lineHeight:26,
-    fontWeight:'600',
-    color:'#fff'
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#fff'
   },
   mainContainer: {
     flex: 1,
@@ -100,4 +104,102 @@ export const globalStyles = StyleSheet.create({
     // color: colors.text,
     fontSize: 16,
   },
+});
+
+export const authStyles = StyleSheet.create({
+  /** Header auth*/
+  header: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  headerImg: {
+    width: 160,
+    height: 160,
+    alignSelf: 'center',
+    marginBottom: 36,
+    borderRadius:10,
+  },
+
+  /* Form auth */
+  form: {
+    marginBottom: 24,
+    paddingHorizontal: 24,
+    flexGrow: 1,
+    flexShrink: 1,
+    // flexBasis:1,
+  },
+  formAction: {
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  formLink: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#075eec',
+    textAlign: 'center',
+  },
+  formFooter: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#222',
+    marginBottom: 8,
+  },
+
+  /** Input */
+  input: {
+    marginBottom: 16
+  },
+  inputLabel: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#222',
+    marginBottom: 8,
+  },
+  inputControl: {
+    height: 50,
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+    borderWidth: 1,
+    borderColor: '#C9D3DB',
+    borderStyle: 'solid',
+  },
+  /** Button */
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    backgroundColor: '#075eec',
+    borderColor: '#075eec'
+  },
+  btnText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#fff'
+  },
+});
+
+export const tabStyles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    lineHeight: 22,
+    color: '#121a26',
+    marginTop: 15,
+    marginBottom: 10,
+    paddingHorizontal: 16,
+
+  },
+
+
+
 });

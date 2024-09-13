@@ -42,10 +42,10 @@ export const MenuScreen = () => {
                 <Text style={styles.profileName}>Panshibe</Text>
                 <Text style={styles.profileHandle}>panshibe@gmail.com</Text>
               </View>
-              <CustomIcon
+              {/* <CustomIcon
                 color="#bcbcbc"
                 name="chevron-forward"
-                size={22} />
+                size={22} /> */}
             </Pressable>
           </View>
         </View>
@@ -58,10 +58,38 @@ export const MenuScreen = () => {
                 onPress={() => {
                   // handle onPress
                 }}
-                style={styles.row}>
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
                 <Text style={styles.rowLabel}>My address</Text>
                 <View style={styles.rowSpacer} />
                 {/* <Text style={styles.rowValue}>English</Text> */}
+                <CustomIcon
+                  color="#bcbcbc"
+                  name="chevron-forward"
+                  size={19} />
+              </Pressable>
+            </View>
+            <View style={styles.rowWrapper}>
+              <Pressable
+                onPress={() => {
+                  // handle onPress
+                }}
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
+                <Text style={styles.rowLabel}>My purchases</Text>
+                <View style={styles.rowSpacer} />
+                <CustomIcon
+                  color="#bcbcbc"
+                  name="chevron-forward"
+                  size={19} />
+              </Pressable>
+            </View>
+            <View style={styles.rowWrapper}>
+              <Pressable
+                onPress={() => {
+                  // handle onPress
+                }}
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
+                <Text style={styles.rowLabel}>Saved cards</Text>
+                <View style={styles.rowSpacer} />
                 <CustomIcon
                   color="#bcbcbc"
                   name="chevron-forward"
@@ -73,8 +101,8 @@ export const MenuScreen = () => {
                 onPress={() => {
                   // handle onPress
                 }}
-                style={styles.row}>
-                <Text style={styles.rowLabel}>Change password</Text>
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
+                <Text style={styles.rowLabel}>Edit account</Text>
                 <View style={styles.rowSpacer} />
                 {/* <Text style={styles.rowValue}>Los Angeles, CA</Text> */}
                 <CustomIcon
@@ -85,6 +113,7 @@ export const MenuScreen = () => {
             </View>
           </View>
         </View>
+        {/* app section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>App</Text>
           <View style={styles.sectionBody}>
@@ -93,7 +122,7 @@ export const MenuScreen = () => {
                 onPress={() => {
                   // handle onPress
                 }}
-                style={styles.row}>
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
                 <Text style={styles.rowLabel}>Contact Us</Text>
                 <View style={styles.rowSpacer} />
                 <CustomIcon
@@ -107,7 +136,7 @@ export const MenuScreen = () => {
                 onPress={() => {
                   // handle onPress
                 }}
-                style={styles.row}>
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
                 <Text style={styles.rowLabel}>Rate App in PlayStore</Text>
                 <View style={styles.rowSpacer} />
                 <CustomIcon
@@ -121,7 +150,7 @@ export const MenuScreen = () => {
                 onPress={() => {
                   // handle onPress
                 }}
-                style={styles.row}>
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
                 <Text style={styles.rowLabel}>Terms and Privacy</Text>
                 <View style={styles.rowSpacer} />
                 <CustomIcon
@@ -142,11 +171,8 @@ export const MenuScreen = () => {
                 { alignItems: 'center' },
               ]}>
               <Pressable
-                onPress={() => {
-                  // handle onPress
-                  logout();
-                }}
-                style={styles.row}>
+                onPress={logout}
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
                 <Text style={[styles.rowLabel, styles.rowLabelLogout]}>
                   Log Out
                 </Text>
@@ -174,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: 16,
-    marginTop:10,
+    marginTop:20,
   },
   headerAction: {
     width: 40,
@@ -193,7 +219,7 @@ const styles = StyleSheet.create({
   },
   /** Content */
   content: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     paddingTop:10,
   },
   contentFooter: {

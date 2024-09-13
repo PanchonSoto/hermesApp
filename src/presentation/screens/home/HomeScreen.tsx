@@ -10,7 +10,7 @@ import { CustomView } from '../../components/ui/CustomView';
 import { FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeStoreApi';
 
 import { HomeScreenStackParams } from '../../router/Stack/HomeStackNavigator';
-import { globalStyles } from '../../../config/theme/theme';
+import { globalStyles, tabStyles } from '../../../config/theme/theme';
 import { SearchTop } from '../../components/ui/SearchTop';
 
 
@@ -43,16 +43,16 @@ export const HomeScreen = () => {
 
   return (
 
-    <View style={{flex:1}}>
+    <CustomView>
       {/* search bar */}
       <SearchTop />
 
-      <CustomView style={styles.container}>
+      <View style={{paddingHorizontal:5,}}>
         <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} >
 
           {/* recently */}
           <View style={styles.list}>
-            <Text style={styles.listTitle}>Recently viewed</Text>
+            <Text style={tabStyles.title}>Recently viewed</Text>
 
             {/* <View style={styles.listHeader}> */}
             <FlatList
@@ -76,8 +76,8 @@ export const HomeScreen = () => {
           </View>
 
           {/* all products */}
-          <View style={styles.list}>
-            <Text style={styles.listTitle}>All products</Text>
+          <View style={[styles.list, {marginBottom:100,}]}>
+            <Text style={tabStyles.title}>All products</Text>
 
             {/* <View style={styles.listHeader}> */}
             <FlatList
@@ -90,46 +90,31 @@ export const HomeScreen = () => {
                 <View style={styles.cardContainerV}>
                   <Image style={styles.cardImageV} source={{ uri: item.image }} />
 
-                  <Text style={[globalStyles.subTitle,{marginTop:5}]}>
+                  <Text style={[globalStyles.subtitle,{marginTop:5}]}>
                     {item.title.slice(0, 18)}
                   </Text>
 
 
-                  <Text style={[styles.listTitle, { marginTop: 2 }]}>${item.price}</Text>
+                  <Text style={[styles.listTitle, { marginTop: 2,paddingBottom:5 }]}>${item.price}</Text>
                 </View>
               )}
             />
 
             {/* </View> */}
+            <Pressable style={[globalStyles.btnPrimary,]} onPress={scrollAtTopp}>
+              <Text style={globalStyles.btnPrimaryText}>ScrollTop</Text>
+            </Pressable>
           </View>
-          <Pressable style={[globalStyles.btnPrimary,]} onPress={scrollAtTopp}>
-            <Text style={globalStyles.btnPrimaryText}>ScrollTop</Text>
-          </Pressable>
 
         </ScrollView>
-      </CustomView>
-    </View>
+      </View>
+    </CustomView>
 
   );
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    // paddingBottom: 24,
-    paddingHorizontal: 10,
-    // flexGrow: 1,
-    // flexShrink: 1,
-    // flexBasis: 0,
-  },
-  title: {
-    paddingHorizontal: 24,
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#1d1d1d',
-    marginBottom: 12,
-
-  },
   listTitle: {
     fontSize: 18,
     fontWeight: '600',
@@ -138,8 +123,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   list: {
-    marginTop: 15,
-    marginBottom: 24,
+    // marginTop: 15,
+    marginBottom: 10,
   },
   listHeader: {
     flexDirection: 'row',
@@ -169,28 +154,34 @@ const styles = StyleSheet.create({
 
   /* card verical */
   cardContainerV: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 1,
+
     backgroundColor: '#fff',
-    marginTop: 15,
+    marginTop: 10,
     marginHorizontal: 5,
+    marginBottom:5,
     padding: 20,
+    // paddingTop:5,
+    paddingBottom:10,
     flex: 1,
     height: 230,
     borderRadius: 5,
     overflow: 'hidden',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     // alignContent: 'center',
     alignItems: 'center',
     // alignSelf: 'center'
   },
   cardImageV: {
-    height: 150,
+    height: 120,
     width: '100%',
     resizeMode: 'contain',
-  },
-  cardWrapper: {
-
-  },
-  cardImg: {
-
   },
 });

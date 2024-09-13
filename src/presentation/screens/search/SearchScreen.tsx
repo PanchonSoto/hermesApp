@@ -130,23 +130,12 @@ export const SearchScreen = () => {
                           size={22}
                         />
                       </View>
-                        {/* {img ? (
-                            <Image
-                            alt=""
-                            resizeMode="cover"
-                            source={{ uri: img }}
-                            style={styles.cardImg} />
-                        ) : (
-                            <View style={[styles.cardImg, styles.cardAvatar]}>
-                            <Text style={styles.cardAvatarText}>{name[0]}</Text>
-                            </View>
-                        )} */}
 
                       <View style={styles.cardBody}>
                         <Text style={styles.cardTitle}>{name.slice(0,40)}</Text>
                       </View>
 
-                      <View style={styles.cardAction}>
+                      <View style={{marginHorizontal:5}}>
                         <CustomIcon
                           color="#9ca3af"
                           name="close"
@@ -277,6 +266,6 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   cardAction: {
-    paddingRight: 16,
+    paddingRight: 5,
   },
 });

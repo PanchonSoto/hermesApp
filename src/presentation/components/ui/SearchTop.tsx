@@ -25,7 +25,7 @@ export const SearchTop = () => {
                     </View>
 
                     <View style={styles.searchControl}>
-                        <Text>Search in HermesHub...</Text>
+                        <Text style={{color:'#848484'}}>Search in HermesHub...</Text>
                     </View>
                 </View>
             </Pressable>
