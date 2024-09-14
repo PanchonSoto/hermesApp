@@ -18,40 +18,22 @@ type RootStackParams = {
 export const AuthProvider = ({children}:PropsWithChildren) => {
 
     const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
-    const { checkStatus, status } = useAuthStore();
-    const [isAuthenticated, setIsAuthenticated] = useState('checking');
+    const { checkStatus, status, token } = useAuthStore();
+    // const [isAuthenticated, setIsAuthenticated] = useState('checking');
 
     useEffect(() => {
         checkStatus();
     }, []);
-
-    useEffect(() => {
-        console.log({status});
-      if(status!=='checking'){
-        if(status==='authenticated'){
-            // navigation.reset({
-            //     index:0,
-            //     routes: [{name:"HomeStack"}],
-            // });
-            setIsAuthenticated('authenticated');
-        } else {
-            // navigation.reset({
-            //     index:0,
-            //     routes: [{name:"AuthStack"}],
-            // });
-            setIsAuthenticated('unauthenticated');
-        }
-      }
-    }, [status]);
+    console.log({status});
 
 
 
     return (
         <>
             {
-               (isAuthenticated === 'authenticated')
+               (status === 'authenticated')
                 ? <RootStackNavigator />
-                : (isAuthenticated === 'checking'
+                : (status === 'checking'
                 ? <FullScreenLoader />
                 : <AuthStackNavigator/>)
             }

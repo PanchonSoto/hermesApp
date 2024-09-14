@@ -2,17 +2,14 @@ import { useContext, useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Image, Switch } from "react-native";
 
 import { CustomView } from "../../components/ui/CustomView"
-import { Title } from "../../components/ui/Title";
-import { Button } from "../../components/ui/Button";
-import { ThemeContext } from "../../context/ThemeContext";
 import { useAuthStore } from "../../store/auth/useAuthStore";
 import { CustomIcon } from "../../components/ui/CustomIcon";
 
 
 export const MenuScreen = () => {
 
-  const { setTheme, currentTheme, colors } = useContext(ThemeContext);
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
+
 
 
   return (
@@ -39,8 +36,8 @@ export const MenuScreen = () => {
                 source={require('../../../assets/profile_blank.webp')}
                 style={styles.profileAvatar} />
               <View style={styles.profileBody}>
-                <Text style={styles.profileName}>Panshibe</Text>
-                <Text style={styles.profileHandle}>panshibe@gmail.com</Text>
+                <Text style={styles.profileName}>{user?.username}</Text>
+                <Text style={styles.profileHandle}>{user?.email}</Text>
               </View>
               {/* <CustomIcon
                 color="#bcbcbc"

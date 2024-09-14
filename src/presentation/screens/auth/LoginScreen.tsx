@@ -27,16 +27,16 @@ export const LoginScreen = () => {
   });
 
   const onLogin = async() => {
+    if(form.email.length===0 || form.password.length===0) {
+      return;
+    }
     await login(form.email, form.password);
-    // if(form.email.length===0 || form.password.length===0) {
-    //   return;
-    // }
-    // setIsPosting(true);
-    // const wasSucessful = await login(form.email, form.password);
-    // setIsPosting(false);
-    // if(wasSucessful) return;
+    setIsPosting(true);
+    const wasSucessful = await login(form.email, form.password);
+    setIsPosting(false);
+    if(wasSucessful) return;
 
-    // Alert.alert('Error', 'Usuario o contrasena incorrecta');
+    Alert.alert('Error', 'Usuario o contrasena incorrecta');
   }
 
   return (
