@@ -30,7 +30,6 @@ export const LoginScreen = () => {
     if(form.email.length===0 || form.password.length===0) {
       return;
     }
-    await login(form.email, form.password);
     setIsPosting(true);
     const wasSucessful = await login(form.email, form.password);
     setIsPosting(false);

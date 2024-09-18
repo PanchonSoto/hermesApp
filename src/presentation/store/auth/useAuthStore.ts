@@ -70,7 +70,7 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
             } else {
                 set({status:'unauthenticated', token:undefined, user:undefined});
             }
-        }, 1000);
+        }, 200);
 
     },
     logout: async()=> {

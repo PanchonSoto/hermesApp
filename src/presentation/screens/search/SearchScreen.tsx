@@ -112,7 +112,7 @@ export const SearchScreen = () => {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={styles.searchContent}>
+        <ScrollView contentContainerStyle={styles.searchContent} showsVerticalScrollIndicator={false}>
           {filteredRows.length ? (
             filteredRows.map(({ img, name }, index) => {
               return (

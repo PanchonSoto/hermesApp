@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Dimensions,StyleSheet } from "react-native";
+
+
+const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get('window');
 
 export interface ThemeColors {
   primary: string;
@@ -96,12 +99,17 @@ export const globalStyles = StyleSheet.create({
 
   btnPrimary: {
     // backgroundColor: colors.primary,
-    borderRadius: 10,
-    padding: 10,
-    alignItems: "center",
+    position: 'absolute',
+    left: WINDOW_WIDTH-45,
+    top: WINDOW_HEIGHT - 200,
+    // borderWidth:1,
+    // borderColor: '#cccccc',
+    borderRadius:50,
+    padding:5,
+    backgroundColor:colors.primary
   },
   btnPrimaryText: {
-    // color: colors.text,
+    // color: colors.primary,
     fontSize: 16,
   },
 });
