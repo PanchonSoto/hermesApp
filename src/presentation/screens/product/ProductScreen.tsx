@@ -1,45 +1,61 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Image, ScrollView, StyleSheet, Text, View, Vibration } from "react-native";
+
+import { StackScreenProps } from "@react-navigation/stack";
 
 import { CustomIcon } from "../../components/ui/CustomIcon";
 import { colors } from "../../../config/theme/theme"
 import { Button } from "../../components/ui/Button";
 
+import { HomeScreenStackParams } from "../../router/Stack/HomeStackNavigator";
+import { useState } from "react";
 
 
 
 
 
 
-export const ProductScreen = () => {
+
+interface Props extends StackScreenProps<HomeScreenStackParams, 'Product'> { }
+
+export const ProductScreen = ({route, navigation}: Props) => {
+
+  const { product } = route.params;
+
+  const [quantity, setQuantity] = useState<number>(1);
+  const [favorite, setFavorite] = useState<boolean>(false);
+
+
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ marginTop: 20 }}>
         {/* image container */}
-        <View style={{ width: '100%', height: 350, backgroundColor: '#FFF' }}>
+        <View style={styles.imgContainer}>
           <Image
-            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-            source={{ uri: 'https://m.media-amazon.com/images/I/51nGxi-shlL._AC_SL1000_.jpg' }}
+            style={styles.img}
+            source={{uri:product.imageurl}}
           />
         </View>
         {/* Product info container */}
-        <View style={{ marginHorizontal: 20 }}>
+        <View style={{ paddingHorizontal: 20,}}>
 
           {/* product Title and icons */}
-          <View style={{ marginTop: 20, flexDirection: 'row', borderBottomWidth: 2, borderColor: '#f0f0f0' }}>
+          <View style={styles.productHeader}>
             {/* product title */}
             <View style={{ width: '80%', }}>
-              <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum omnis sint illo similique, dicta molestias eos.</Text>
-              {/* rate info */}
-              <View style={{ flexDirection: 'row', marginTop: 5, alignItems: 'center' }}>
-                <Text style={{ fontSize: 18, color: 'black', fontWeight: '400', marginRight: 2 }}>4.4</Text>
-                <CustomIcon
-                  color="black"
-                  name="star"
-                  size={19}
-                />
-                <Text style={{ fontSize: 16, color: 'black', fontWeight: '300', marginRight: 2 }}>(4 reviews)</Text>
-              </View>
-              <Text style={{ marginVertical: 5, fontSize: 20, color: 'black', fontWeight: '600' }}>$100</Text>
+              <Text style={{ color: 'black', fontSize: 24, fontWeight: '600',marginBottom:5}}>{product.name}</Text>
+                <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>{product.description}</Text>
+                {/* rate info */}
+                <View style={{ flexDirection: 'row', marginTop: 5, alignItems: 'center' }}>
+                  <Text style={{ fontSize: 18, color: 'black', fontWeight: '500', marginRight: 2 }}>4.4</Text>
+                  <CustomIcon
+                    color="gold"
+                    name="star"
+                    size={19}
+                  />
+                  <Text style={{ fontSize: 16, color: 'black', fontWeight: '400', marginRight: 2 }}>(4 reviews)</Text>
+                </View>
+                <Text style={{ marginVertical: 10, fontSize: 20, color: 'black', fontWeight: '600' }}>${product.price}</Text>
             </View>
 
             <View style={{ flex: 1, }} />
@@ -49,26 +65,29 @@ export const ProductScreen = () => {
                 // styles={styles.btn}
                 styleContainer={{borderWidth: 1, borderRadius: 100, padding: 8, borderColor: '#cccccc'}}
                 text=""
-                onPress={()=>{}}
-                icon="heart-outline"
+                onPress={()=>{
+                  Vibration.vibrate([1,1], false);
+                  setFavorite(!favorite);
+                }}
+                icon={ (favorite) ? "heart" : "heart-outline" }
+                iconColor={(favorite) ? "red" : "black"}
                 iconSize={24}
-                iconColor="#000"
               />
 
             </View>
           </View>
-          {/* product color */}
-          <View style={{ flexDirection: 'row', borderBottomWidth: 2, borderColor: '#f0f0f0', paddingVertical: 12, width: "100%", alignItems: "center", justifyContent: "flex-start", }}>
-            <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>Color</Text>
+          {/* product stock */}
+          <View style={[styles.productInfoRow, {borderBottomWidth:2}]}>
+            <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>Stock</Text>
             <View style={{ flexGrow: 1, flexShrink: 1, flexBasis: 0, }} />
-            <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', marginRight: 5 }}>Black</Text>
+            <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', marginRight: 10 }}>{product.stock}</Text>
             <CustomIcon
               color="#bcbcbc"
-              name="chevron-forward"
+              name="file-tray-stacked"
               size={19} />
           </View>
           {/* product quantity */}
-          <View style={{ flexDirection: 'row', borderColor: '#f0f0f0', paddingVertical: 12, width: "100%", alignItems: "center", justifyContent: "flex-start", }}>
+          <View style={styles.productInfoRow}>
             <Text style={{ color: 'black', fontSize: 18, fontWeight: '400', }}>Quantity</Text>
             <View style={{ flexGrow: 1, flexShrink: 1, flexBasis: 0, }} />
             {/* btn quantity */}
@@ -76,21 +95,21 @@ export const ProductScreen = () => {
              styles={styles.btn}
              styleContainer={{alignSelf: 'flex-end', backgroundColor: '#efefef', borderTopLeftRadius: 8, borderBottomLeftRadius: 8,}}
              text=""
-             onPress={()=>{}}
+             onPress={()=> quantity<=1 ? undefined : setQuantity(quantity-1)}
              icon="remove"
              iconSize={16}
              iconColor="#000"
             />
             {/* counter */}
             <View style={{ alignSelf: 'flex-end', backgroundColor: '#efefef' }}>
-              <Text style={[styles.btn, { fontWeight: '600', color: '#000' }]}>1</Text>
+              <Text style={[styles.btn, { fontWeight: '600', color: '#000' }]}>{quantity}</Text>
             </View>
             {/* btn add */}
             <Button
              styles={styles.btn}
              styleContainer={{alignSelf: 'flex-end', backgroundColor: '#efefef', borderTopRightRadius: 8, borderBottomRightRadius: 8,}}
              text=""
-             onPress={()=>{}}
+             onPress={()=>{ quantity>=product.stock ? undefined : setQuantity(quantity+1)}}
              icon="add"
              iconSize={16}
              iconColor="#000"
@@ -100,7 +119,7 @@ export const ProductScreen = () => {
           {/* buttons */}
           <View style={styles.contentActions}>
 
-            <View style={{ paddingHorizontal: 5 }}>
+            <View >
               <Button onPress={() => { }} text="Add to cart"
                 styles={styles.btnPrimary} styleText={styles.btnPrimaryText} styleContainer={{ paddingHorizontal: 6 }}
               />
@@ -117,6 +136,31 @@ export const ProductScreen = () => {
 }
 
 const styles = StyleSheet.create({
+  img:{
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain'
+  },
+  imgContainer:{
+    width: '100%',
+    height: 350,
+    backgroundColor: '#FFF',
+    paddingHorizontal:20
+  },
+  productHeader:{
+    marginTop: 20,
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+    borderColor: '#f0f0f0'
+  },
+  productInfoRow:{
+    flexDirection: 'row',
+    borderColor: '#f0f0f0',
+    paddingVertical: 12,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
   btn: {
     alignItems: 'center',
     justifyContent: 'center',

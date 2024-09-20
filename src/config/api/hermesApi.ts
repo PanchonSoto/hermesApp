@@ -11,7 +11,7 @@ export const API_URL =
     : Platform.OS === 'ios'
         ? API_URL_IOS
         : API_URL_ANDROID
-
+console.log({API_URL});
 const hermesApi = axios.create({
     baseURL: API_URL,
     headers: {

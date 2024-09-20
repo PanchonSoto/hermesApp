@@ -69,7 +69,8 @@ export const WhishListScreen: React.FC = () => {
 
           <Text style={tabStyles.title}>Wishlist</Text>
           <Pressable
-            onPress={() => navigation.navigate('Product', { productId: '123' })}>
+            // onPress={() => navigation.navigate('Product', { productId: '123' })}
+          >
 
             <FlatList
               data={products}

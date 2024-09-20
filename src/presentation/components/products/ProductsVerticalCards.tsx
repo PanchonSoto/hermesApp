@@ -1,13 +1,15 @@
 import { View, Text, FlatList, Image, Pressable, StyleSheet } from 'react-native'
 import { useRef, useState } from 'react';
 import { InfiniteData } from '@tanstack/react-query';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { tabStyles, globalStyles } from '../../../config/theme/theme';
-import { Product } from '../../../domain/entities/productEntity';
+import { Product, Products } from '../../../domain/entities/productEntity';
 import { FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeStoreApi';
 
 import { CustomIcon } from '../ui/CustomIcon';
 import ProductsHortizontalCards from './ProductsHortizontalCards';
+import { HomeScreenStackParams } from '../../router/Stack/HomeStackNavigator';
 
 
 
@@ -22,6 +24,8 @@ interface Props {
 
 const ProductsVerticalCards = ({ isLoading, data, recenltyProducts, nextPage }: Props) => {
 
+    const navigation = useNavigation<NavigationProp<HomeScreenStackParams>>();
+
     const flatListRef = useRef<FlatList>(null);
     const [contentVerticalOffset, setContentVerticalOffset] = useState(0);
     const CONTENT_OFFSET_THRESHOLD = 400;
@@ -33,6 +37,9 @@ const ProductsVerticalCards = ({ isLoading, data, recenltyProducts, nextPage }: 
     //scroll to top by btn
     const scrollAtTopp = () => {
         flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
+        setTimeout(() => {
+            setContentVerticalOffset(0);
+        }, 200);
     };
 
     //method that fetch and prevent more request if no one products left
@@ -40,6 +47,23 @@ const ProductsVerticalCards = ({ isLoading, data, recenltyProducts, nextPage }: 
         if (totalProdutsFetched === data?.pages[0]?.totalProducts) return;
         nextPage();
     };
+;
+
+    const navToProduct = (item:any)=> () => {
+        navigation.navigate('Product', {product:item});
+    }
+
+    const renderItem = ({ item }:any) => (
+        <Pressable style={styles.cardContainerV} onPress={navToProduct(item)}>
+            <Image style={styles.cardImageV} source={{ uri: item?.imageurl }} />
+
+            <Text style={[globalStyles.subtitle, { marginTop: 10, }]}>
+                {item?.name}
+            </Text>
+
+            <Text style={[styles.listTitle, { marginVertical: 10, }]}>${item?.price}</Text>
+        </Pressable>
+    );
 
     return (
         <>
@@ -54,21 +78,11 @@ const ProductsVerticalCards = ({ isLoading, data, recenltyProducts, nextPage }: 
                 showsVerticalScrollIndicator={false}
                 scrollEnabled={true}
                 onEndReached={handleEndReached}
-                onEndReachedThreshold={0.8}
-                onScroll={(event)=>setContentVerticalOffset(event.nativeEvent.contentOffset.y)}
-                scrollEventThrottle={200}
+                onEndReachedThreshold={0.6}
+                onScroll={(event) => setContentVerticalOffset(event.nativeEvent.contentOffset.y)}
+                scrollEventThrottle={400}
 
-                renderItem={({ item }) => (
-                    <View style={styles.cardContainerV}>
-                        <Image style={styles.cardImageV} source={{ uri: item?.imageurl }} />
-
-                        <Text style={[globalStyles.subtitle, { marginTop: 10, }]}>
-                            {item?.name}
-                        </Text>
-
-                        <Text style={[styles.listTitle, { marginVertical: 10, }]}>${item?.price}</Text>
-                    </View>
-                )}
+                renderItem={renderItem}
 
 
                 ListFooterComponent={() => <View style={{ marginBottom: 90 }} />}
@@ -85,7 +99,7 @@ const ProductsVerticalCards = ({ isLoading, data, recenltyProducts, nextPage }: 
             {/* BTN scrollTop */}
             {
                 contentVerticalOffset > CONTENT_OFFSET_THRESHOLD && (
-                     <Pressable style={[globalStyles.btnPrimary,]} onPress={scrollAtTopp}>
+                    <Pressable style={[globalStyles.btnPrimary,]} onPress={scrollAtTopp}>
                         <CustomIcon
                             color="#fff"
                             name="arrow-up"
