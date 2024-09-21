@@ -10,6 +10,7 @@ interface Props {
     styles?: StyleProp<ViewStyle>;
     disabled?: boolean;
     loading?: boolean;
+    loadingSize?:number;
     icon?: string;
     iconColor?: string;
     iconSize?:number;
@@ -29,6 +30,7 @@ export const Button = ({
     styles,
     disabled = false,
     loading = false,
+    loadingSize,
     icon,
     iconColor,
     iconSize,
@@ -62,7 +64,7 @@ export const Button = ({
         accessibilityLabel={accessibilityLabel}
       >
         {loading ? (
-          <ActivityIndicator color={colors.buttonTextColor} />
+          <ActivityIndicator color={colors.buttonTextColor} size={loadingSize}/>
         ) : (
           <View>
             {icon && <Icon name={icon} size={iconSize} color={iconColor}/>}

@@ -3,9 +3,9 @@ import { create } from "zustand";
 // import { AuthStatus } from "../../infrastructure/interfaces/auth.status";
 // import { authCheckStatus, authLogin } from "../../actions/auth/auth";
 import { StorageHelper } from "../../../config/helpers/storage-helper";
-import { authLogin } from "../../../actions/auth/auth";
+import { authCheckStatus, authLogin, authRegister } from "../../../actions/auth/auth";
 
-import { User } from '../../../infrastructure/interfaces/auth/auth.responses';
+import { AuthResponse, User } from '../../../infrastructure/interfaces/auth/auth.responses';
 
 
 type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated'
@@ -15,6 +15,7 @@ export interface AuthState {
     token?: string;
     user?: User;
 
+    register: (username:string,email:string,password:string)=>Promise<boolean>;
     login: (email:string, password:string) => Promise<boolean>;
     checkStatus: ()=>Promise<void>;
     logout: ()=>Promise<void>;
@@ -30,6 +31,19 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
     status: 'checking',
     token: undefined,
     user: undefined,
+
+
+    register: async(username, email, password)=>{
+        const res = await authRegister(username,email,password);
+        if(!res) {
+            set({status:'unauthenticated', token:undefined, user:undefined});
+            return false;
+        }
+        console.log({res});
+        await StorageHelper.setItem('token', res.token);
+        set({status:'authenticated', token:res.token, user:res.user});
+        return true;
+    },
 
     login: async(email:string, password:string)=>{
         const res = await authLogin(email, password);
@@ -52,25 +66,35 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
 
     },
     checkStatus: async() => {
-        //Todo create endpoint that verify the jwt
-        // const res = await authCheckStatus();
-        // if(!res) {
-        //     set({status:'unauthenticated', token:undefined, user:undefined});
-        //     return;
-        // }
+
+        //? not token not request to backend
+        const storageToken = await StorageHelper.getItem('token');
+        if(!storageToken) {
+            set({status:'unauthenticated', token:undefined, user:undefined});
+            return;
+        }
+
+        //? check stored token in backend
+        const res = await authCheckStatus();
+
+        if(!res) {
+            set({status:'unauthenticated', token:undefined, user:undefined});
+            return;
+        }
+        const user: User = {id:res.user.id, username: res.user.username, email:res.user.email, created_at:res.user.email }
         // await StorageHelper.setItem('token', res.token);
-        // set({status:'authenticated', token:res.token, user:res.user});
+        set({status:'authenticated', user:user});
 
         //!local test
-        setTimeout(async() => {
-            const isAuthToken = await StorageHelper.getItem('token');
-            if(isAuthToken) {
-                set({status:'authenticated', token:isAuthToken});
+        // setTimeout(async() => {
+        //     const isAuthToken = await StorageHelper.getItem('token');
+        //     if(isAuthToken) {
+        //         set({status:'authenticated', token:isAuthToken});
 
-            } else {
-                set({status:'unauthenticated', token:undefined, user:undefined});
-            }
-        }, 200);
+        //     } else {
+        //         set({status:'unauthenticated', token:undefined, user:undefined});
+        //     }
+        // }, 200);
 
     },
     logout: async()=> {

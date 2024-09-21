@@ -171,7 +171,7 @@ export const authStyles = StyleSheet.create({
     borderRadius: 12,
     fontSize: 15,
     fontWeight: '500',
-    color: '#222',
+    // color: '#222',
     borderWidth: 1,
     borderColor: '#C9D3DB',
     borderStyle: 'solid',
@@ -185,8 +185,8 @@ export const authStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderWidth: 1,
-    backgroundColor: '#075eec',
-    borderColor: '#075eec'
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   btnText: {
     fontSize: 18,
