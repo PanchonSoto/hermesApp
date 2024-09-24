@@ -1,7 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { WhishListScreen } from '../../screens/whishlist/WhishListScreen';
+
+import { WhishListScreen } from '../../screens/wishlist/WishlistScreen';
 import { ProductScreen } from '../../screens/product/ProductScreen';
+
+import { Products } from '../../../domain/entities/productEntity';
 
 
 
@@ -13,7 +16,7 @@ import { ProductScreen } from '../../screens/product/ProductScreen';
 
 export type WishListScreenStackParams = {
   WishList: undefined;
-  Product: { productId: string };
+  Product: { product: Products };
 }
 
 const WishListStack = createStackNavigator<WishListScreenStackParams>();

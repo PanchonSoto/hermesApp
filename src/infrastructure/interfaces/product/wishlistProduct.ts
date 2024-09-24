@@ -1,20 +1,13 @@
-
-export interface WishlistResponse {
-    total:    number;
-    wishlist: Wishlist[];
+export interface DeleteWishlistResponse {
+    deletedProduct: DeletedProduct;
 }
 
-export interface Wishlist {
+export interface DeletedProduct {
     id:         number;
     user_id:    number;
     product_id: number;
     added_at:   Date;
     products:   Products;
-}
-
-export interface Product {
-    products: Products[];
-    totalProducts: number;
 }
 
 export interface Products {

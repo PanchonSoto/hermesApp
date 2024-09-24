@@ -1,21 +1,26 @@
 import { Image, ScrollView, StyleSheet, Text, View, Vibration } from "react-native";
+import { useEffect, useState } from "react";
 
-import { StackScreenProps } from "@react-navigation/stack";
+import type{ StackScreenProps } from "@react-navigation/stack";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { CustomIcon } from "../../components/ui/CustomIcon";
 import { colors } from "../../../config/theme/theme"
 import { Button } from "../../components/ui/Button";
 
-import { HomeScreenStackParams } from "../../router/Stack/HomeStackNavigator";
-import { useState } from "react";
+import type{ HomeScreenStackParams } from "../../router/Stack/HomeStackNavigator";
+import type{ WishListScreenStackParams } from "../../router/Stack/WishListStackNavigator";
+import type{ WishlistCachedData } from "../../store/products/useWishlistStore";
+
+import { deleteWishlistProductsByPage } from "../../../actions/product/delete-wishlist-product";
+import { createWishlistProductsByPage } from "../../../actions/product/create-wishlist-product";
 
 
 
 
 
 
-
-interface Props extends StackScreenProps<HomeScreenStackParams, 'Product'> { }
+interface Props extends StackScreenProps<HomeScreenStackParams|WishListScreenStackParams, 'Product'>{};
 
 export const ProductScreen = ({route, navigation}: Props) => {
 
@@ -24,6 +29,33 @@ export const ProductScreen = ({route, navigation}: Props) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [favorite, setFavorite] = useState<boolean>(false);
 
+  const queryClient = useQueryClient();
+  const cachedData = queryClient.getQueryData<WishlistCachedData>(['wishlist', 'infinite']);
+
+  const wishlist = cachedData?.pages.map(page => page.wishlist).flat() ?? [];
+  const isWished = wishlist.some(item => item.product_id === product.id);
+
+  useEffect(() => {
+    setFavorite(isWished);
+  }, [isWished]);
+
+
+  const mutation = useMutation({
+    mutationFn: (id:number)=> {
+      return favorite
+      ? deleteWishlistProductsByPage(id)
+      : createWishlistProductsByPage(id);
+    },
+    onSuccess(data) {
+      setFavorite(!favorite);
+      queryClient.invalidateQueries({queryKey:['wishlist', 'infinite']});
+    },
+  });
+
+  const onFavorite = () => {
+    mutation.mutate(product.id);
+    Vibration.vibrate([1, 1], false);
+  }
 
 
   return (
@@ -65,10 +97,8 @@ export const ProductScreen = ({route, navigation}: Props) => {
                 // styles={styles.btn}
                 styleContainer={{borderWidth: 1, borderRadius: 100, padding: 8, borderColor: '#cccccc'}}
                 text=""
-                onPress={()=>{
-                  Vibration.vibrate([1,1], false);
-                  setFavorite(!favorite);
-                }}
+                onPress={onFavorite}
+                disabled={mutation.isPending}
                 icon={ (favorite) ? "heart" : "heart-outline" }
                 iconColor={(favorite) ? "red" : "black"}
                 iconSize={24}
@@ -132,7 +162,7 @@ export const ProductScreen = ({route, navigation}: Props) => {
         </View>
       </View>
     </ScrollView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

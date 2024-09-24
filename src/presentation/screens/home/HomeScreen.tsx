@@ -1,4 +1,4 @@
-import {  View } from 'react-native';
+import { View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
@@ -8,6 +8,8 @@ import { FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeSto
 import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
 import ProductsVerticalCards from '../../components/products/ProductsVerticalCards';
+import { getWishlistProductsByPage } from '../../../actions/product/get-wishlist-products';
+import { useWishlistStore } from '../../store/products/useWishlistStore';
 
 
 
@@ -18,6 +20,7 @@ export const HomeScreen = () => {
 
   // const { top } = useSafeAreaInsets();
   const [products, setProducts] = useState<FakeStoreAPI[]>([]);
+  const { setWishlistData } = useWishlistStore();
 
 
   const { isLoading, data, fetchNextPage } = useInfiniteQuery({
@@ -29,6 +32,17 @@ export const HomeScreen = () => {
     },
     getNextPageParam: (lastPage, allPages) => allPages.length,
   });
+
+  const { } = useInfiniteQuery({
+    queryKey: ['wishlist', 'infinite'],
+    staleTime: 1000 * 60 * 60,//1 hour
+    initialPageParam: 0,
+    queryFn: async (params) => {
+      return await getWishlistProductsByPage(params.pageParam + 1,);
+    },
+    getNextPageParam: (lastPage, allPages) => allPages.length,
+  });
+
 
   useEffect(() => {
     // Fetch data from the API
@@ -45,10 +59,10 @@ export const HomeScreen = () => {
       {/* search bar */}
       <SearchTop />
 
-      <View style={{ paddingHorizontal: 5,}}>
+      <View style={{ paddingHorizontal: 5, }}>
         {/* all products */}
         <View>
-          <ProductsVerticalCards data={data} nextPage={fetchNextPage} recenltyProducts={products} isLoading={isLoading}/>
+          <ProductsVerticalCards data={data} nextPage={fetchNextPage} recenltyProducts={products} isLoading={isLoading} />
         </View>
 
       </View>
