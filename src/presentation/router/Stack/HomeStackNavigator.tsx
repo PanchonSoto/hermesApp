@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../../screens/home/HomeScreen';
 import { ProductScreen } from '../../screens/product/ProductScreen';
 
-import { Products } from '../../../domain/entities/productEntity';
+import type{ Products } from '../../../domain/entities/productEntity';
 
 
 

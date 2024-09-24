@@ -5,7 +5,7 @@ import { create } from "zustand";
 import { StorageHelper } from "../../../config/helpers/storage-helper";
 import { authCheckStatus, authLogin, authRegister } from "../../../actions/auth/auth";
 
-import { AuthResponse, User } from '../../../infrastructure/interfaces/auth/auth.responses';
+import type{ User } from '../../../infrastructure/interfaces/auth/auth.responses';
 
 
 type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated'

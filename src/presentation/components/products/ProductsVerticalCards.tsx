@@ -1,10 +1,10 @@
 import { View, Text, FlatList, Image, Pressable, StyleSheet } from 'react-native'
 import { useRef, useState } from 'react';
-import { InfiniteData } from '@tanstack/react-query';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import type{ InfiniteData } from '@tanstack/react-query';
+import { type NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { tabStyles, globalStyles } from '../../../config/theme/theme';
-import { Product, Products } from '../../../domain/entities/productEntity';
+import type{ Product, Products } from '../../../domain/entities/productEntity';
 import { FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeStoreApi';
 
 import { CustomIcon } from '../ui/CustomIcon';

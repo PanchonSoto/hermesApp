@@ -1,10 +1,10 @@
 import { View, Text, Pressable, StyleSheet, Image, FlatList, ScrollView } from 'react-native';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { type NavigationProp, useNavigation } from '@react-navigation/native';
 
-import { CartStackParams } from '../../router/Stack/CartStackNavigator';
+import type{ CartStackParams } from '../../router/Stack/CartStackNavigator';
 
-import { colors, globalStyles, tabStyles } from '../../../config/theme/theme';
-import { CustomIcon } from '../../components/ui/CustomIcon';
+import { colors, tabStyles } from '../../../config/theme/theme';
+
 import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
 import { Button } from '../../components/ui/Button';

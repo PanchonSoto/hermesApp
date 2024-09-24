@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getProductsByPage } from '../../../actions/product/get-products-by-page';
@@ -9,7 +9,6 @@ import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
 import ProductsVerticalCards from '../../components/products/ProductsVerticalCards';
 import { getWishlistProductsByPage } from '../../../actions/product/get-wishlist-products';
-import { useWishlistStore } from '../../store/products/useWishlistStore';
 
 
 
@@ -20,7 +19,6 @@ export const HomeScreen = () => {
 
   // const { top } = useSafeAreaInsets();
   const [products, setProducts] = useState<FakeStoreAPI[]>([]);
-  const { setWishlistData } = useWishlistStore();
 
 
   const { isLoading, data, fetchNextPage } = useInfiniteQuery({

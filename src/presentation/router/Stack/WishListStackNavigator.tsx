@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { WhishListScreen } from '../../screens/wishlist/WishlistScreen';
 import { ProductScreen } from '../../screens/product/ProductScreen';
 
-import { Products } from '../../../domain/entities/productEntity';
+import type{ Products } from '../../../domain/entities/productEntity';
 
 
 

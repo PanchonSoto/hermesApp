@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { InfiniteData } from '@tanstack/react-query';
+import type{ InfiniteData } from '@tanstack/react-query';
 
 import type{ Products, WishlistResponse } from "../../../domain/entities/productEntity";
 

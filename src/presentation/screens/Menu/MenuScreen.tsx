@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView, Image, Switch } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Image } from "react-native";
 
 import { CustomView } from "../../components/ui/CustomView"
 import { useAuthStore } from "../../store/auth/useAuthStore";

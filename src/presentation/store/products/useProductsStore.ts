@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { InfiniteData } from '@tanstack/react-query';
+import type{ InfiniteData } from '@tanstack/react-query';
 
-import { Product } from "../../../domain/entities/productEntity";
+import type{ Product } from "../../../domain/entities/productEntity";
 
 
 export interface ProductStore {

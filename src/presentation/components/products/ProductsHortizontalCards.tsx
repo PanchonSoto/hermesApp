@@ -1,6 +1,6 @@
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 
-import { FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeStoreApi';
+import type{ FakeStoreAPI } from '../../../infrastructure/interfaces/product/fakeStoreApi';
 import { tabStyles } from '../../../config/theme/theme';
 
 

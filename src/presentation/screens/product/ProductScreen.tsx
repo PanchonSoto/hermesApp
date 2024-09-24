@@ -49,12 +49,12 @@ export const ProductScreen = ({route, navigation}: Props) => {
     onSuccess(data) {
       setFavorite(!favorite);
       queryClient.invalidateQueries({queryKey:['wishlist', 'infinite']});
+      Vibration.vibrate([1, 1], false);
     },
   });
 
   const onFavorite = () => {
     mutation.mutate(product.id);
-    Vibration.vibrate([1, 1], false);
   }
 
 

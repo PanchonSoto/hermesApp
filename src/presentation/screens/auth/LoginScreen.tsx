@@ -1,14 +1,15 @@
 import { View, Text, Alert, ScrollView, TextInput, Image, KeyboardAvoidingView, Pressable, Platform } from 'react-native'
-import React, { useState } from 'react';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { type NavigationProp, useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { authStyles, colors, globalStyles } from '../../../config/theme/theme';
 import { CustomView } from '../../components/ui/CustomView'
 import { Button } from '../../components/ui/Button';
+
 import { useAuthStore } from '../../store/auth/useAuthStore';
-import { AuthStackParams } from '../../router/Stack/AuthStackNavigator';
+import type{ AuthStackParams } from '../../router/Stack/AuthStackNavigator';
 
 
 

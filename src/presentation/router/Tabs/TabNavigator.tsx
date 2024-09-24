@@ -14,8 +14,6 @@ import { MenuStackNavigator } from "../Stack/MenuStackNavigator";
 import { WishListStackNavigator } from "../Stack/WishListStackNavigator";
 
 import { SearchScreen } from "../../screens/search/SearchScreen";
-import { ProductScreen } from "../../screens/product/ProductScreen";
-import { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 
 
 

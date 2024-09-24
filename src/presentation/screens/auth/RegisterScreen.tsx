@@ -4,7 +4,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { AuthStackParams } from '../../router/Stack/AuthStackNavigator';
+import type{ AuthStackParams } from '../../router/Stack/AuthStackNavigator';
 
 import { ThemeContext } from '../../context/ThemeContext';
 
