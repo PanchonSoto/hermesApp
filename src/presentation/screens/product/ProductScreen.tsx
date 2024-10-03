@@ -15,6 +15,8 @@ import type{ WishlistCachedData } from "../../store/products/useWishlistStore";
 import { deleteWishlistProductsByPage } from "../../../actions/product/delete-wishlist-product";
 import { createWishlistProductsByPage } from "../../../actions/product/create-wishlist-product";
 
+import { useCartStore } from "../../store/products/useCartStore";
+
 
 
 
@@ -28,6 +30,8 @@ export const ProductScreen = ({route, navigation}: Props) => {
 
   const [quantity, setQuantity] = useState<number>(1);
   const [favorite, setFavorite] = useState<boolean>(false);
+
+  const { addProductToCart } = useCartStore();
 
   const queryClient = useQueryClient();
   const cachedData = queryClient.getQueryData<WishlistCachedData>(['wishlist', 'infinite']);
@@ -57,9 +61,13 @@ export const ProductScreen = ({route, navigation}: Props) => {
     mutation.mutate(product.id);
   }
 
+  const onAddToCart = () => {
+    addProductToCart(product, quantity);
+  }
+
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView>
       <View style={{ marginTop: 20 }}>
         {/* image container */}
         <View style={styles.imgContainer}>
@@ -150,7 +158,7 @@ export const ProductScreen = ({route, navigation}: Props) => {
           <View style={styles.contentActions}>
 
             <View >
-              <Button onPress={() => { }} text="Add to cart"
+              <Button onPress={onAddToCart} text="Add to cart"
                 styles={styles.btnPrimary} styleText={styles.btnPrimaryText} styleContainer={{ paddingHorizontal: 6 }}
               />
               <Button onPress={() => { }} text="Buy now"

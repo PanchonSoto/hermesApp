@@ -14,6 +14,7 @@ import { MenuStackNavigator } from "../Stack/MenuStackNavigator";
 import { WishListStackNavigator } from "../Stack/WishListStackNavigator";
 
 import { SearchScreen } from "../../screens/search/SearchScreen";
+import { useCartStore } from "../../store/products/useCartStore";
 
 
 
@@ -33,8 +34,7 @@ export const TabNavigator = () => {
     const { currentTheme, colors } = useContext(ThemeContext);
     // const { bottom } = useSafeAreaInsets();
     const {top, bottom} = useSafeAreaInsets();
-
-
+    const { cart } = useCartStore();
 
 
     return (
@@ -57,7 +57,7 @@ export const TabNavigator = () => {
 
           <Tab.Screen name="HomeStack"  component={HomeStackNavigator} options={{ tabBarBadgeStyle:{backgroundColor:'#E91E63'}, tabBarLabel: 'Home', headerShown:false }} />
           <Tab.Screen name="WishListStack" component={WishListStackNavigator} options={{ tabBarLabel: 'Wishlist', headerShown:false }}/>
-          <Tab.Screen name="CartStack" component={CartStackNavigator} options={{ tabBarLabel: 'Cart', tabBarBadge: 4, headerShown:false, }}/>
+          <Tab.Screen name="CartStack" component={CartStackNavigator} options={{ tabBarLabel: 'Cart', tabBarBadge: cart.length > 0 ? cart.length : undefined, headerShown:false, }}/>
           <Tab.Screen name="MenuStack" component={MenuStackNavigator} options={{ tabBarLabel: 'Menu', headerShown: false}}/>
       </Tab.Navigator>
     );

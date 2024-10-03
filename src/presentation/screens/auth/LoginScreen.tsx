@@ -117,7 +117,7 @@ export const LoginScreen = () => {
                     text="Login"
                     styles={authStyles.btn}
                     styleText={authStyles.btnText}
-                    disabled={!isValid}
+                    disabled={!isValid || isPosting}
                     loading={isPosting}
                     loadingSize={26}
                   />

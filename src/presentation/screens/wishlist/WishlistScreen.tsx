@@ -38,18 +38,26 @@ export const WhishListScreen: React.FC = () => {
         <View style={{ paddingHorizontal: 10 }}>
 
           <Text style={tabStyles.title}>Wishlist</Text>
-          <Pressable
-            // onPress={() => navigation.navigate('Product', { productId: '123' })}
-          >
-            <FlatList
-              data={data?.pages.map(page => page?.wishlist).flat().map(wishlist=>wishlist?.products) ?? []}
-              // data={data?.pages.map(page=>page?.wishlist.flat())}
-              keyExtractor={(item, index) => `${item?.id}-${index}`}
-              renderItem={({ item }) => <WishlistItem product={item} />}
-              scrollEnabled={false}
-            />
+          {
+            (data?.pages.map(page => page?.wishlist).flat().map(wishlist => wishlist?.products).length===0)
+            ? ( <Text style={{ alignSelf: 'center', paddingTop: 200 }}>Wishlist empty...</Text> )
+            :
+            (
+              <Pressable
+              // onPress={() => navigation.navigate('Product', { productId: '123' })}
+              >
+                <FlatList
+                  data={data?.pages.map(page => page?.wishlist).flat().map(wishlist => wishlist?.products) ?? []}
+                  // data={data?.pages.map(page=>page?.wishlist.flat())}
+                  keyExtractor={(item, index) => `${item?.id}-${index}`}
+                  renderItem={({ item }) => <WishlistItem product={item} />}
+                  scrollEnabled={false}
+                />
 
-          </Pressable>
+              </Pressable>
+            )
+
+          }
         </View>
       </ScrollView>
     </CustomView>

@@ -5,115 +5,21 @@ import type{ CartStackParams } from '../../router/Stack/CartStackNavigator';
 
 import { colors, tabStyles } from '../../../config/theme/theme';
 
+import CartProducts from '../../components/products/CartProducts';
 import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
 import { Button } from '../../components/ui/Button';
 
+import { useCartStore } from '../../store/products/useCartStore';
 
 
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-}
-
-const products: Product[] = [
-  { id: 1, name: 'Smartphone iPhone 13 Pro Max Negro Apple 256GB', price: 100, imageUrl: 'https://m.media-amazon.com/images/I/51UtM-A3fdL.jpg' },
-  { id: 2, name: 'Samsung Galaxy S24 Ultra 6.8" Dual SIM, 256GB, 12GB RAM, Gris', price: 200, imageUrl: 'https://images.samsung.com/is/image/samsung/p6pim/mx/2401/gallery/mx-galaxy-s24-s928-sm-s928bzkmltm-539300146?$650_519_PNG$' },
-  { id: 3, name: 'Samsung Galaxy S24 Ultra 6.8" Dual SIM, 256GB, 12GB RAM, Gris', price: 200, imageUrl: 'https://images.samsung.com/is/image/samsung/p6pim/mx/2401/gallery/mx-galaxy-s24-s928-sm-s928bzkmltm-539300146?$650_519_PNG$' },
-  { id: 4, name: 'Smartphone iPhone 13 Pro Max Negro Apple 256GB', price: 100, imageUrl: 'https://m.media-amazon.com/images/I/51UtM-A3fdL.jpg' },
-  { id: 5, name: 'Samsung Galaxy S24 Ultra 6.8" Dual SIM, 256GB, 12GB RAM, Gris', price: 200, imageUrl: 'https://images.samsung.com/is/image/samsung/p6pim/mx/2401/gallery/mx-galaxy-s24-s928-sm-s928bzkmltm-539300146?$650_519_PNG$' },
-  { id: 6, name: 'Samsung Galaxy S24 Ultra 6.8" Dual SIM, 256GB, 12GB RAM, Gris', price: 200, imageUrl: 'https://images.samsung.com/is/image/samsung/p6pim/mx/2401/gallery/mx-galaxy-s24-s928-sm-s928bzkmltm-539300146?$650_519_PNG$' },
-  { id: 7, name: 'Smartphone iPhone 13 Pro Max Negro Apple 256GB', price: 100, imageUrl: 'https://m.media-amazon.com/images/I/51UtM-A3fdL.jpg' },
-  { id: 8, name: 'Samsung Galaxy S24 Ultra 6.8" Dual SIM, 256GB, 12GB RAM, Gris', price: 200, imageUrl: 'https://images.samsung.com/is/image/samsung/p6pim/mx/2401/gallery/mx-galaxy-s24-s928-sm-s928bzkmltm-539300146?$650_519_PNG$' },
-  { id: 9, name: 'Samsung Galaxy S24 Ultra 6.8" Dual SIM, 256GB, 12GB RAM, Gris', price: 200, imageUrl: 'https://images.samsung.com/is/image/samsung/p6pim/mx/2401/gallery/mx-galaxy-s24-s928-sm-s928bzkmltm-539300146?$650_519_PNG$' },
-  // Add more products as needed
-];
 
 
 
 export const CartScreen = () => {
 
   const navigation = useNavigation<NavigationProp<CartStackParams>>();
-
-
-  const WishlistItem = ({ product }: { product: Product }) => (
-    <View style={styles.product}>
-
-      <View style={styles.productContainer}>
-
-        <View style={styles.productImgContainer}>
-          <Image source={{ uri: product.imageUrl }} style={{ width: 100, height: 100, resizeMode: 'cover', }} />
-        </View>
-
-        <View style={styles.productInfo}>
-
-          <Text style={styles.productTitle}>{product.name}</Text>
-          <Text style={styles.productPrice}>$ {product.price}</Text>
-
-
-          <View style={styles.contentActions}>
-
-            {/* btn rest */}
-            <Button
-              styles={styles.btn}
-              styleContainer={{  backgroundColor: '#efefef', borderTopLeftRadius: 8, borderBottomLeftRadius: 8, }}
-              text=""
-              onPress={() => { }}
-              icon="remove"
-              iconSize={16}
-              iconColor="#000"
-            />
-            {/* counter */}
-            <View style={{  backgroundColor: '#efefef' }}>
-              <Text style={[styles.btn, { fontWeight: '600', color: '#000' }]}>1</Text>
-            </View>
-            {/* btn add */}
-            <Button
-              styles={styles.btn}
-              styleContainer={{  backgroundColor: '#efefef', borderTopRightRadius: 8, borderBottomRightRadius: 8, }}
-              text=""
-              onPress={() => { }}
-              icon="add"
-              iconSize={16}
-              iconColor="#000"
-            />
-
-            <View style={{ flex: 1 }} />
-            {/* btn delete */}
-            <Button
-              styles={styles.btn}
-              styleContainer={{ backgroundColor: '#efefef', borderRadius: 8, borderBottomRightRadius: 8, marginRight: 5 }}
-              text=""
-              onPress={() => { }}
-              icon="trash-outline"
-              iconSize={16}
-              iconColor="red"
-            />
-            {/* <Pressable
-              onPress={() => {
-                // handle onPress
-              }}
-              style={{ backgroundColor: '#F3F2F7', borderRadius: 8, borderBottomRightRadius: 8, marginRight: 5 }}>
-              <View style={styles.btn}>
-                <CustomIcon
-                  name="trash-outline"
-                  size={16}
-                  color="red"
-                />
-              </View>
-            </Pressable> */}
-
-
-          </View>
-        </View>
-      </View>
-
-    </View>
-
-  );
+  const { cart, total } = useCartStore();
 
   return (
     <View style={{ flex: 1, }}>
@@ -124,92 +30,95 @@ export const CartScreen = () => {
       <CustomView style={{ paddingHorizontal: 10 }}>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Text style={tabStyles.title}>Your Cart (3)</Text>
+          <Text style={tabStyles.title}>Your Cart {cart.length>0?(cart.length):''}</Text>
           <View style={{ flex: 1 }} />
           <Text style={tabStyles.title}>Total:{' '}
-            <Text style={{ color: colors.primary }}>1400</Text>
+            <Text style={{ color: colors.primary }}>{total}</Text>
           </Text>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <FlatList
-            data={products}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <WishlistItem product={item} />}
-            scrollEnabled={false}
-            style={{ marginBottom: 20 }}
-          />
+        { ( cart.length===0 )
+            ? ( <Text style={{ alignSelf: 'center', paddingTop: 200 }}>Cart empty...</Text> )
+            :
+            (
+              <ScrollView showsVerticalScrollIndicator={false}>
+              <FlatList
+                data={cart}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => <CartProducts product={item} />}
+                scrollEnabled={false}
+                style={{ marginBottom: 20 }}
+              />
 
-          {/* summary */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Summary:</Text>
-            <View style={styles.sectionBody}>
-              <View style={[styles.rowWrapper, styles.rowFirst]}>
-                <Pressable
-                  onPress={() => {
-                    // handle onPress
-                  }}
-                  style={styles.row}>
-                  <Text style={styles.rowLabel}>Products total:</Text>
-                  <View style={styles.rowSpacer} />
-                  <Text style={styles.rowLabel}>$1400</Text>
-                </Pressable>
-              </View>
-              <View style={styles.rowWrapper}>
-                <Pressable
-                  onPress={() => {
-                    // handle onPress
-                  }}
-                  style={styles.row}>
-                  <Text style={styles.rowLabel}>Shipping:</Text>
-                  <View style={styles.rowSpacer} />
-                  <Text style={styles.rowLabel}>$10</Text>
-                </Pressable>
-              </View>
-              <View style={styles.rowWrapper}>
-                <Pressable
-                  onPress={() => {
-                    // handle onPress
-                  }}
-                  style={styles.row}>
-                  <Text style={styles.rowLabel}>Subtotal:</Text>
-                  <View style={styles.rowSpacer} />
-                  <Text style={styles.rowLabel}>$1410</Text>
-                </Pressable>
-              </View>
-              <View style={[styles.rowWrapper, styles.rowLast]}>
-                <Pressable
-                  onPress={() => {
-                    // handle onPress
-                  }}
-                  style={styles.row}>
-                  <Text style={styles.rowLabel}>Total (taxes included):</Text>
-                  <View style={styles.rowSpacer} />
-                  <Text style={styles.rowLabel}>$1410</Text>
-                </Pressable>
-              </View>
-            </View>
 
-          </View>
+              {/* summary */}
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Summary:</Text>
+                <View style={styles.sectionBody}>
+                  <View style={[styles.rowWrapper, styles.rowFirst]}>
+                    <Pressable
+                      onPress={() => {
+                        // handle onPress
+                      }}
+                      style={styles.row}>
+                      <Text style={styles.rowLabel}>Products total:</Text>
+                      <View style={styles.rowSpacer} />
+                      <Text style={styles.rowLabel}>$1400</Text>
+                    </Pressable>
+                  </View>
+                  <View style={styles.rowWrapper}>
+                    <Pressable
+                      onPress={() => {
+                        // handle onPress
+                      }}
+                      style={styles.row}>
+                      <Text style={styles.rowLabel}>Shipping:</Text>
+                      <View style={styles.rowSpacer} />
+                      <Text style={styles.rowLabel}>$10</Text>
+                    </Pressable>
+                  </View>
+                  <View style={styles.rowWrapper}>
+                    <Pressable
+                      onPress={() => {
+                        // handle onPress
+                      }}
+                      style={styles.row}>
+                      <Text style={styles.rowLabel}>Subtotal:</Text>
+                      <View style={styles.rowSpacer} />
+                      <Text style={styles.rowLabel}>$1410</Text>
+                    </Pressable>
+                  </View>
+                  <View style={[styles.rowWrapper, styles.rowLast]}>
+                    <Pressable
+                      onPress={() => {
+                        // handle onPress
+                      }}
+                      style={styles.row}>
+                      <Text style={styles.rowLabel}>Total (taxes included):</Text>
+                      <View style={styles.rowSpacer} />
+                      <Text style={styles.rowLabel}>$1410</Text>
+                    </Pressable>
+                  </View>
+                </View>
 
-          {/* checkout */}
-          <View style={styles.checkoutAction}>
-            <Button
-              onPress={() => { }}
-              styleContainer={styles.btnCheckout}
-              styleText={styles.btnCheckoutText}
-              text="Proced to checkout"
-            />
-            {/* <Pressable
-              onPress={() => {
-                // handle onPress
-              }}>
-              <View style={styles.btnCheckout}>
-                <Text style={styles.btnCheckoutText}>Proced to checkout</Text>
               </View>
-            </Pressable> */}
-          </View>
-        </ScrollView>
+
+              {/* checkout */}
+              <View style={styles.checkoutAction}>
+                <Button
+                  onPress={() => { }}
+                  styleContainer={styles.btnCheckout}
+                  styleText={styles.btnCheckoutText}
+                  text="Proced to checkout"
+                />
+
+              </View>
+            </ScrollView>
+            )
+
+          }
+
+
 
       </CustomView>
 
@@ -218,90 +127,6 @@ export const CartScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  /* products */
-  product: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 1,
-
-    // paddingHorizontal:5,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 5,
-    // elevation: 1,
-  },
-  productTitle: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#000',
-    // textAlign: 'left',
-    // paddingHorizontal: 10,
-  },
-  productPrice: {
-    color: '#000',
-    fontWeight: '600',
-    fontSize: 16,
-    // paddingHorizontal: 10,
-    paddingTop: 5,
-  },
-  productContainer: {
-    // borderWidth:1,
-    // borderColor: 'orange',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-    paddingHorizontal: 5,
-  },
-  productImgContainer: {
-    // borderWidth:1,
-    // borderColor: 'blue',
-    // width: '25%',
-    alignSelf: 'center',
-    alignItems:'center',
-    flex: 1,
-    paddingHorizontal:5,
-  },
-  productInfo: {
-    // borderWidth:1,
-    // borderColor: 'red',
-    // justifyContent: 'flex-start',
-    // width: '75%',
-    flex: 3,
-    paddingHorizontal:5,
-    // marginLeft:15,
-  },
-
-  /* botones */
-  contentActions: {
-    marginTop: 10,
-    flexDirection: 'row',
-    // borderWidth:1,
-    borderColor: 'red',
-    flex: 1,
-    // marginTop: 90,
-  },
-  btn: {
-    // flexDirection: 'row',
-    // backgroundColor: '#F3F2F7',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    // borderRadius: 8,
-    // paddingVertical: 8,
-    // paddingHorizontal: 16,
-    // borderWidth: 1,
-    width: 35,
-    height: 35,
-    // borderColor: 'red',
-  },
-
   /* summary */
   section: {
     // justifyContent:'flex-end',
@@ -389,7 +214,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#fff',
   }
-
-
-
-})
+});
