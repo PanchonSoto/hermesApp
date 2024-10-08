@@ -131,15 +131,16 @@ export const authStyles = StyleSheet.create({
 
   /* Form auth */
   form: {
-    marginBottom: 24,
-    paddingHorizontal: 24,
+    marginTop:20,
+    marginBottom: 25,
+    paddingHorizontal: 25,
     flexGrow: 1,
     flexShrink: 1,
     // flexBasis:1,
   },
   formAction: {
-    marginTop: 4,
-    marginBottom: 16,
+    marginTop: 20,
+    marginBottom: 15,
   },
   formLink: {
     fontSize: 16,

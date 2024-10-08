@@ -1,29 +1,35 @@
-import { View, Text, Alert, ScrollView, TextInput, Image, KeyboardAvoidingView, Pressable, Platform } from 'react-native'
+import { View, Text, Alert, ScrollView, Image, Pressable } from 'react-native'
 import { useState } from 'react';
 import { type NavigationProp, useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { type FieldValues, type SubmitErrorHandler, type SubmitHandler, useForm, FormProvider } from 'react-hook-form';
+
 
 import { authStyles, colors, globalStyles } from '../../../config/theme/theme';
 import { CustomView } from '../../components/ui/CustomView'
 import { Button } from '../../components/ui/Button';
-
+import { CustomInput } from '../../components/ui/CustomInput';
 import { useAuthStore } from '../../store/auth/useAuthStore';
-import type{ AuthStackParams } from '../../router/Stack/AuthStackNavigator';
+
+import type { AuthStackParams } from '../../router/Stack/AuthStackNavigator';
 
 
+
+
+
+type FormValues = {
+  email: string;
+  password: string;
+};
 
 const logo = require("../../../assets/logo/logoTall.png");
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Please type your email.'),
-  password: Yup.string().required('Password is required')
-  // .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, 'Must contain min 8 characters, at least one uppercase letter, one special letter.'),
-});
+
 
 
 export const LoginScreen = () => {
 
+  const { top, bottom } = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp<AuthStackParams>>();
 
   const { login } = useAuthStore();
@@ -35,12 +41,32 @@ export const LoginScreen = () => {
     const wasSucessful = await login(values.email, values.password);
     setIsPosting(false);
     if (wasSucessful) return;
-    Alert.alert('Error', 'Usuario o contrasena incorrecta');
+    Alert.alert('Error', 'Your email or password is wrong');
+  }
+
+  // useForm hook and set default behavior/values
+  const { ...methods } = useForm({ mode: 'onChange' });
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log({ data });
+    setIsPosting(true);
+    const wasSucessful = await login(data.email, data.password);
+    setIsPosting(false);
+    if (wasSucessful) return;
+    Alert.alert('Error', 'Your email or password is wrong');
+  }
+
+  const [formError, setError] = useState<Boolean>(false)
+
+  const onError: SubmitErrorHandler<FormValues> = (errors, e) => {
+    return console.log({ errors })
   }
 
   return (
-    <ScrollView style={{ backgroundColor: colors.background }}>
-      <CustomView style={globalStyles.container}>
+    <CustomView style={[globalStyles.container, { paddingTop: top, paddingBottom: bottom }]}>
+      <ScrollView
+        automaticallyAdjustKeyboardInsets
+        scrollEventThrottle={400}>
 
 
         <View style={authStyles.header}>
@@ -59,96 +85,69 @@ export const LoginScreen = () => {
         </View>
 
         {/*form */}
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={LoginSchema}
-          onSubmit={(values) => onLogin(values)}
-        >
-          {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit }) => (
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <FormProvider {...methods}>
 
-              <View style={authStyles.form}>
+          <View style={authStyles.form}>
 
-                <View style={authStyles.input}>
-                  {/* email */}
-                  <Text style={authStyles.inputLabel}>Email</Text>
-                  <TextInput
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    clearButtonMode="while-editing"
-                    keyboardType="email-address"
-                    placeholder="email@example.com"
-                    placeholderTextColor="#6b7280"
-                    style={[authStyles.inputControl, {
-                      color: (touched.email && errors.email) ? 'red' : '#222'
-                    }]}
+            <CustomInput
+              name="email"
+              label="Email"
+              placeholder="example.doe@email.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              rules={{
+                required: 'Email is required!',
+                pattern: {
+                  value: /\b[\w\\.+-]+@[\w\\.-]+\.\w{2,4}\b/,
+                  message: 'Invalid email',
+                },
+              }}
+              setFormError={setError}
+            />
 
-                    value={values.email}
-                    onChangeText={handleChange('email')}
-                    onBlur={() => setFieldTouched('email')}
-                  />
-                  {touched.email && errors.email && (<Text style={{ color: 'red' }}>{errors.email}</Text>)}
-                </View>
+            <CustomInput
+              name="password"
+              label="Password"
+              secureTextEntry
+              placeholder="**********"
+              rules={{ required: 'Password is required!' }}
+              setFormError={setError}
+            />
 
-                <View style={authStyles.input}>
-                  {/* password */}
-                  <Text style={authStyles.inputLabel}>Password</Text>
-                  <TextInput
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                    clearButtonMode="while-editing"
-                    placeholder="***********"
-                    placeholderTextColor="#6b7280"
-                    style={[authStyles.inputControl, {
-                      color: (touched.password && errors.password) ? 'red' : '#222'
-                    }]}
+            <View style={authStyles.formAction}>
+              <Button
+                onPress={methods.handleSubmit(onSubmit, onError)}
+                text="Login"
+                styles={authStyles.btn}
+                styleText={authStyles.btnText}
+                disabled={!methods.formState.isValid || isPosting}
+                loading={isPosting}
+                loadingSize={26}
+              />
+            </View>
 
-                    value={values.password}
-                    onChangeText={handleChange('password')}
-                    onBlur={() => setFieldTouched('password')}
-                  />
-                  {touched.password && errors.password && (<Text style={{ color: 'red' }}>{errors.password}</Text>)}
-                </View>
-
-                <View style={authStyles.formAction}>
-                  <Button
-                    onPress={handleSubmit}
-                    text="Login"
-                    styles={authStyles.btn}
-                    styleText={authStyles.btnText}
-                    disabled={!isValid || isPosting}
-                    loading={isPosting}
-                    loadingSize={26}
-                  />
-                </View>
-
-              </View>
+          </View>
 
 
 
 
-              <View style={{ marginTop: 'auto', alignItems: 'center' }}>
-                <Pressable
-                  style={{ marginTop: 'auto' }}
-                  onPress={() => navigation.navigate('RegisterScreen')}
-                >
-                  <Text style={authStyles.formFooter}>
-                    Don't have an account?{' '}
-                    <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
-                  </Text>
-                </Pressable>
-              </View>
+          <View style={{ marginTop: 'auto', alignItems: 'center' }}>
+            <Pressable
+              style={{ marginTop: 'auto' }}
+              onPress={() => navigation.navigate('RegisterScreen')}
+            >
+              <Text style={authStyles.formFooter}>
+                Don't have an account?{' '}
+                <Text style={{ textDecorationLine: 'underline', color: colors.primary }}>Sign up</Text>
+              </Text>
+            </Pressable>
+          </View>
+        </FormProvider>
 
 
-            </KeyboardAvoidingView>
-          )}
-        </Formik>
 
-
-      </CustomView>
-
-    </ScrollView>
+      </ScrollView>
+    </CustomView>
   );
 }
 

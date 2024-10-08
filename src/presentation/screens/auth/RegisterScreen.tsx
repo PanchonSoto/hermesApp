@@ -1,190 +1,169 @@
-import { useContext, useState } from 'react';
-import { View, Text, KeyboardAvoidingView, Image, TextInput, Pressable, Platform, ScrollView, Alert } from 'react-native';
+import { useState } from 'react';
+import { View, Text, Image, ScrollView, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
 
-import type{ AuthStackParams } from '../../router/Stack/AuthStackNavigator';
 
-import { ThemeContext } from '../../context/ThemeContext';
+import { useForm, FormProvider, SubmitHandler, SubmitErrorHandler, FieldValues } from 'react-hook-form';
 
-import { authStyles, globalStyles } from '../../../config/theme/theme';
+
+import type { AuthStackParams } from '../../router/Stack/AuthStackNavigator';
+
+import { authStyles, colors, globalStyles } from '../../../config/theme/theme';
 import { Button } from '../../components/ui/Button';
 import { CustomView } from '../../components/ui/CustomView';
+import { CustomInput } from '../../components/ui/CustomInput';
 import { useAuthStore } from '../../store/auth/useAuthStore';
 
 
 
-
+type FormValues = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPass: string;
+};
 
 const logo = require("../../../assets/logo/logo.png");
+// const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const RegisterSchema = Yup.object().shape({
-  username: Yup.string().min(2).required('Type your name'),
-  email: Yup.string().email('Invalid email').required('Please type your email.'),
-  password: Yup.string().min(8).required('password is required')
-  .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, 'Must contain min 8 characters, at least one uppercase letter, special letter and a number'),
-  confirmPassword: Yup.string().min(8).oneOf([Yup.ref('password')], 'Your password do not match.').required('confirm password is required'),
-});
-
-
-
+// let renderCount = 0;
 
 export const RegisterScreen = () => {
 
+  const { top, bottom } = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp<AuthStackParams>>();
-  const { colors } = useContext(ThemeContext);
 
-  const { register } = useAuthStore();
+  const { register: registerStore } = useAuthStore();
   const [isPosting, setIsPosting] = useState(false);
 
 
-  const onRegister = async(values:{username:string,email: string, password: string})=> {
+
+  // useForm hook and set default behavior/values
+  const { ...methods } = useForm({ mode: 'onChange' });
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log({ data });
     setIsPosting(true);
-    const wasSucessful = await register(values.username,values.email, values.password);
+    await registerStore(data.username, data.email, data.password);
     setIsPosting(false);
   }
 
+  const [formError, setError] = useState<Boolean>(false)
+
+  const onError: SubmitErrorHandler<FormValues> = (errors, e) => {
+    return console.log({ errors })
+  }
+
+  // renderCount++;
 
   return (
-    <ScrollView style={{backgroundColor:colors.background}}>
-      <CustomView style={globalStyles.container}>
-        {/* header */}
-        <View style={authStyles.header}>
-          <Image
-            alt="HermesHub Logo"
-            resizeMode="contain"
-            style={authStyles.headerImg}
-            source={logo}
-          />
-          <Text style={globalStyles.title}>
-            Let's Get Started!
-          </Text>
-          <Text style={globalStyles.subtitle}>
-            Fill in the fields below to create an account.
-          </Text>
-        </View>
+    <CustomView style={[globalStyles.container, { paddingTop: top, paddingBottom: bottom }]}>
 
-        <Formik
-          initialValues={{username:'', email: '', password: '',confirmPassword:''}}
-          validationSchema={RegisterSchema}
-          onSubmit={(values) => onRegister(values)}
-        >
-          {({ values, errors, touched, handleChange, setFieldTouched, isValid, handleSubmit }) => (
-            <KeyboardAvoidingView behavior={Platform.OS==='ios' ? 'padding': undefined}>
-            {/* form */}
+      {formError ? <View><Text style={{ color: 'red' }}>There was a problem with loading the form. Please try again later.</Text></View> :
+        <ScrollView
+          // contentContainerStyle={{ flex: 1, }}
+          automaticallyAdjustKeyboardInsets
+          scrollEventThrottle={400}>
+
+
+          {/* header */}
+          <View style={authStyles.header}>
+            <Image
+              alt="HermesHub Logo"
+              resizeMode="contain"
+              style={authStyles.headerImg}
+              source={logo}
+            />
+            <Text style={globalStyles.title}>Create account!</Text>
+            <Text style={globalStyles.subtitle}>Fill in the fields below to create an account.</Text>
+          </View>
+
+          {/* form */}
+          <FormProvider {...methods}>
             <View style={authStyles.form}>
 
-              <View style={authStyles.input}>
-                <Text style={authStyles.inputLabel}>Full Name</Text>
-                <TextInput
-                clearButtonMode="while-editing"
+              <CustomInput
+                name="username"
+                label="Full Name"
                 placeholder="Type your name"
-                placeholderTextColor="#6b7280"
-                style={[authStyles.inputControl,{
-                  color: (touched.username && errors.username) ? 'red' : '#222'
-                }]}
-
-                value={values.username}
-                onChangeText={handleChange('username')}
-                onBlur={()=>setFieldTouched('username')}
-              />
-              {touched.username && errors.username && (<Text style={{ color: 'red' }}>{errors.username}</Text>)}
-              </View>
-
-              <View style={authStyles.input}>
-                  <Text style={authStyles.inputLabel}>Email Address</Text>
-                  <TextInput
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    clearButtonMode="while-editing"
-                    keyboardType="email-address"
-                    placeholder="john@example.com"
-                    placeholderTextColor="#6b7280"
-                    style={[authStyles.inputControl,{
-                      color: (touched.email && errors.email) ? 'red' : '#222'
-                    }]}
-
-                    value={values.email}
-                    onChangeText={handleChange('email')}
-                    onBlur={()=>setFieldTouched('email')}
-                  />
-                  {touched.email && errors.email && (<Text style={{ color: 'red' }}>{errors.email}</Text>)}
-                </View>
-
-                <View style={authStyles.input}>
-                  <Text style={authStyles.inputLabel}>Password</Text>
-                  <TextInput
-                    autoCorrect={false}
-                    secureTextEntry={true}
-                    clearButtonMode="while-editing"
-                    placeholder="********"
-                    placeholderTextColor="#6b7280"
-                    style={[authStyles.inputControl,{
-                      color: (touched.password && errors.password) ? 'red' : '#222'
-                    }]}
-
-                    value={values.password}
-                    onChangeText={handleChange('password')}
-                    onBlur={()=>setFieldTouched('password')}
-                  />
-                  {touched.password && errors.password && (<Text style={{ color: 'red' }}>{errors.password}</Text>)}
-                </View>
-
-                <View style={authStyles.input}>
-                  <Text style={authStyles.inputLabel}>Confirm Password</Text>
-                  <TextInput
-                    autoCorrect={false}
-                    clearButtonMode="while-editing"
-                    placeholder="********"
-                    placeholderTextColor="#6b7280"
-                    secureTextEntry={true}
-                    style={[authStyles.inputControl,{
-                      color: (touched.confirmPassword && errors.confirmPassword) ? 'red' : '#222'
-                    }]}
-
-                    value={values.confirmPassword}
-                    onChangeText={handleChange('confirmPassword')}
-                    onBlur={()=>setFieldTouched('confirmPassword')}
-                  />
-                  {touched.confirmPassword && errors.confirmPassword && (<Text style={{ color: 'red' }}>{errors.confirmPassword}</Text>)}
-                </View>
-
-                <View style={authStyles.formAction}>
-                  <Button
-                    onPress={handleSubmit}
-                    text="Register"
-                    styles={authStyles.btn}
-                    styleText={authStyles.btnText}
-                    disabled={!isValid}
-                    loading={isPosting}
-                    loadingSize={26}
-                  />
-                </View>
-              </View>
-
-
-            <View style={{marginTop:'auto', alignItems:'center'}}>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate('LoginScreen');
+                keyboardType="default"
+                rules={{
+                  required: 'Required field!',
+                  min: 2,
                 }}
-                style={{ marginTop: 'auto' }}>
-                <Text style={authStyles.formFooter}>
-                  Already have an account?{' '}
-                  <Text style={{ textDecorationLine: 'underline' }}>Sign in</Text>
-                </Text>
-              </Pressable>
+                setFormError={setError}
+              />
+
+              <CustomInput
+                name="email"
+                label="Email"
+                placeholder="example.doe@email.com"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                rules={{
+                  required: 'Email is required!',
+                  pattern: {
+                    value: /\b[\w\\.+-]+@[\w\\.-]+\.\w{2,4}\b/,
+                    message: 'Invalid email',
+                  },
+                }}
+                setFormError={setError}
+              />
+
+              <CustomInput
+                name="password"
+                label="Password"
+                secureTextEntry
+                placeholder="**********"
+                rules={{ required: 'Password is required!' }}
+                setFormError={setError}
+              />
+
+              <CustomInput
+                name="confirmPass"
+                label="Confirm password"
+                secureTextEntry
+                placeholder="**********"
+                rules={{
+                  required: 'Confirm password!',
+                  validate: (val: string) => (methods.watch('password') != val) ? 'Your password do not match' : undefined
+                }}
+                setFormError={setError}
+              />
+
+
+              <View style={{ alignItems: 'center', }}>
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate('LoginScreen');
+                  }}
+                >
+                  <Text style={authStyles.formFooter}>
+                    Already have an account?{' '}
+                    <Text style={{ textDecorationLine: 'underline', color:colors.primary }}>Sign in</Text>
+                  </Text>
+                </Pressable>
+              </View>
+
+              {/* form submit */}
+              <View style={authStyles.formAction}>
+                <Button
+                  onPress={methods.handleSubmit(onSubmit, onError)}
+                  text="Register"
+                  styles={authStyles.btn}
+                  styleText={authStyles.btnText}
+                  disabled={!methods.formState.isValid || isPosting}
+                  loading={isPosting}
+                  loadingSize={26}
+                />
+              </View>
+
             </View>
+          </FormProvider>
+        </ScrollView>
+      }
 
-            </KeyboardAvoidingView>
-          )}
-        </Formik>
-
-      </CustomView>
-
-    </ScrollView>
-  )
+    </CustomView>
+  );
 }
-
-
