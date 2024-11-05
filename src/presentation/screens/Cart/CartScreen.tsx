@@ -1,7 +1,7 @@
 import { View, Text, Pressable, StyleSheet, Image, FlatList, ScrollView } from 'react-native';
 import { type NavigationProp, useNavigation } from '@react-navigation/native';
 
-import type{ CartStackParams } from '../../router/Stack/CartStackNavigator';
+import type { CartStackParams } from '../../router/Stack/CartStackNavigator';
 
 import { colors, tabStyles } from '../../../config/theme/theme';
 
@@ -22,26 +22,26 @@ export const CartScreen = () => {
   const { cart, total } = useCartStore();
 
   return (
-    <View style={{ flex: 1, }}>
+
+    <CustomView>
 
       {/* search bar */}
       <SearchTop />
 
-      <CustomView style={{ paddingHorizontal: 10 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
+        <Text style={tabStyles.title}>Your Cart {cart.length > 0 ? (cart.length) : ''}</Text>
+        <View style={{ flex: 1 }} />
+        <Text style={tabStyles.title}>Total:{' '}
+          <Text style={{ color: colors.primary }}>{total}</Text>
+        </Text>
+      </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Text style={tabStyles.title}>Your Cart {cart.length>0?(cart.length):''}</Text>
-          <View style={{ flex: 1 }} />
-          <Text style={tabStyles.title}>Total:{' '}
-            <Text style={{ color: colors.primary }}>{total}</Text>
-          </Text>
-        </View>
-
-        { ( cart.length===0 )
-            ? ( <Text style={{ alignSelf: 'center', paddingTop: 200 }}>Cart empty...</Text> )
-            :
-            (
-              <ScrollView showsVerticalScrollIndicator={false}>
+      {(cart.length === 0)
+        ? (<Text style={{ alignSelf: 'center', paddingTop: 200 }}>Cart empty...</Text>)
+        :
+        (
+          <View style={{ paddingHorizontal: 10, flex:1}}>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <FlatList
                 data={cart}
                 keyExtractor={(item) => item.id.toString()}
@@ -114,15 +114,14 @@ export const CartScreen = () => {
 
               </View>
             </ScrollView>
-            )
+          </View>
+        )
 
-          }
+      }
 
 
 
-      </CustomView>
-
-    </View>
+    </CustomView>
   );
 }
 

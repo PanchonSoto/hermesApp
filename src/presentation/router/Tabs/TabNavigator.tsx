@@ -39,14 +39,14 @@ export const TabNavigator = () => {
 
     return (
       <Tab.Navigator
-          safeAreaInsets={({bottom:bottom+5})}
+          safeAreaInsets={{bottom:bottom, top: top}}
           screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => (<TabBarIcon routeName={route} color={color} size={size} focused={focused} />),
               tabBarActiveTintColor: colors.primary,
               tabBarInactiveTintColor: colors.liteColor,
               tabBarStyle: {
                   // paddingTop: 5,
-                  height: 60,
+                  // height: 100,
               },
               tabBarLabelStyle: {
                   fontSize: 14,

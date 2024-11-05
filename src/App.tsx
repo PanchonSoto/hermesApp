@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 export const App = () => {
   return (
     <SafeAreaProvider>
-      <StatusBar backgroundColor="#3F51B5" barStyle="light-content" />
+      <StatusBar backgroundColor="#3F51B5" barStyle="default" />
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           {/* <TabNavigator /> */}

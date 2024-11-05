@@ -8,6 +8,7 @@ import { SearchTop } from '../../components/ui/SearchTop';
 import WishlistItem from '../../components/products/WishlistItem';
 
 import { getWishlistProductsByPage } from '../../../actions/product/get-wishlist-products';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -15,6 +16,8 @@ import { getWishlistProductsByPage } from '../../../actions/product/get-wishlist
 
 export const WhishListScreen: React.FC = () => {
 
+
+  const { top, bottom } = useSafeAreaInsets();
 
   const { isLoading, data, fetchNextPage } = useInfiniteQuery({
     queryKey: ['wishlist', 'infinite'],
