@@ -9,6 +9,7 @@ import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
 import ProductsVerticalCards from '../../components/products/ProductsVerticalCards';
 import { getWishlistProductsByPage } from '../../../actions/product/get-wishlist-products';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -17,7 +18,7 @@ import { getWishlistProductsByPage } from '../../../actions/product/get-wishlist
 
 export const HomeScreen = () => {
 
-  // const { top } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
   const [products, setProducts] = useState<FakeStoreAPI[]>([]);
 
 
@@ -52,8 +53,7 @@ export const HomeScreen = () => {
 
 
   return (
-
-    <CustomView>
+    <CustomView style={{paddingTop:top,}}>
       {/* search bar */}
       <SearchTop />
 

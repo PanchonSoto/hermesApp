@@ -43,7 +43,7 @@ export const TabBarIcon = ({ routeName, focused, color, size }: IconProps) => {
               backgroundColor: color,
               // marginBottom: 7,
               position:'absolute',
-              bottom:28,
+              bottom:26,
             }} />
         )}
         <Ionicons

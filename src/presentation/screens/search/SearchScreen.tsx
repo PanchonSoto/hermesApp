@@ -1,9 +1,10 @@
-import { StyleSheet, SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Pressable, Animated } from 'react-native';
+import { StyleSheet, SafeAreaView, View, ScrollView, Text, TextInput, TouchableOpacity, Pressable, Animated, Platform } from 'react-native';
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { CustomIcon } from '../../components/ui/CustomIcon';
 import { CustomView } from '../../components/ui/CustomView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const products = [
     {
@@ -42,6 +43,9 @@ const products = [
 
 export const SearchScreen = () => {
 
+  const {top, bottom} = useSafeAreaInsets();
+  console.log({top, bottom});
+
   const navigation = useNavigation<NavigationProp<any>>();
   const [input, setInput] = useState('');
 
@@ -74,7 +78,7 @@ export const SearchScreen = () => {
   }, [fadeAnim]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    // <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
 
       <CustomView style={styles.container}>
 
@@ -151,7 +155,7 @@ export const SearchScreen = () => {
           )}
         </ScrollView>
       </CustomView>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }
 
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 14,
     // paddingLeft: 34,
     // width: '100%',
-    paddingVertical: 5.5,
+    paddingVertical: (Platform.OS==="ios" ? 10 : 6),
     paddingHorizontal: 14,
     paddingLeft: 34,
     width: '100%',
