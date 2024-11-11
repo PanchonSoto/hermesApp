@@ -15,8 +15,7 @@ export class StorageHelper {
         try {
             await AsyncStorage.setItem(key, value);
         } catch (error) {
-            throw new Error(`Error setting item ${key}-${value}`);
-
+            throw new Error(`Error setting item ${key}-${value}. Details: ${error instanceof Error ? error.message : error}`);
         }
     }
 

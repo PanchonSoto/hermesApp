@@ -31,7 +31,7 @@ export const CartScreen = () => {
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
         <Text style={tabStyles.title}>Your Cart {cart.length > 0 ? (cart.length) : ''}</Text>
         <View style={{ flex: 1 }} />
-        <Text style={tabStyles.title}>Total:{' '}
+        <Text style={tabStyles.title}>Total:{' $'}
           <Text style={{ color: colors.primary }}>{total}</Text>
         </Text>
       </View>
@@ -106,7 +106,7 @@ export const CartScreen = () => {
               {/* checkout */}
               <View style={styles.checkoutAction}>
                 <Button
-                  onPress={() => { }}
+                  onPress={() => { console.log(JSON.stringify(cart)); }}
                   styleContainer={styles.btnCheckout}
                   styleText={styles.btnCheckoutText}
                   text="Proced to checkout"

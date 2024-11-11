@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 
+import Decimal from 'decimal.js';
+
+
 import type { Products } from "../../../domain/entities/productEntity";
 
 
@@ -27,8 +30,12 @@ export const useCartStore = create<Cart>()((set, get) => ({
       set(() => ({ total: 0 }));
       return;
     };
-    const prices = get().cart.map((product) => Number(product.price) * product.quantity);
-    const total = prices.reduce((acc, curr) => acc + curr);
+    // const prices = get().cart.map((product) => Number(product.price) * product.quantity);
+    // const total = prices.reduce((acc, curr) => acc + curr);
+    const total = get().cart
+      .map((product) => new Decimal(product.price).times(product.quantity))
+      .reduce((acc, curr) => acc.plus(curr), new Decimal(0))
+      .toNumber();
     set(() => ({ total: total }));
   },
 
