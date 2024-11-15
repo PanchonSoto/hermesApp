@@ -100,8 +100,8 @@ export const globalStyles = StyleSheet.create({
   btnPrimary: {
     // backgroundColor: colors.primary,
     position: 'absolute',
-    left: WINDOW_WIDTH-45,
-    top: WINDOW_HEIGHT - 200,
+    left: WINDOW_WIDTH - 45,
+    top: WINDOW_HEIGHT - 240,
     // borderWidth:1,
     // borderColor: '#cccccc',
     borderRadius:50,

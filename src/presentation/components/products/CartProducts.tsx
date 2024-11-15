@@ -7,7 +7,7 @@ import { Button } from '../ui/Button';
 
 
 interface Props {
-    product: CartProduct
+  product: CartProduct
 }
 
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       alignItems:'center',
       flex: 1,
-      paddingHorizontal:5,
+      paddingHorizontal:20,
     },
     productInfo: {
       // borderWidth:1,

@@ -139,8 +139,8 @@ export const ProductScreen = ({route, navigation}: Props) => {
              iconColor="#000"
             />
             {/* counter */}
-            <View style={{ alignSelf: 'flex-end', backgroundColor: '#efefef' }}>
-              <Text style={[styles.btn, { fontWeight: '600', color: '#000' }]}>{quantity}</Text>
+            <View style={[{ backgroundColor: '#efefef' }, styles.btn,]}>
+              <Text style={[ { fontWeight: '600', color: '#000' }]}>{quantity}</Text>
             </View>
             {/* btn add */}
             <Button

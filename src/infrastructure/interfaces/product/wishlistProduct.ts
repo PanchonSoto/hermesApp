@@ -15,7 +15,7 @@ export interface Products {
     name:        string;
     category_id: number;
     description: string;
-    price:       string;
+    price:       number;
     stock:       number;
     imageurl:    string;
     created_at:  Date;
