@@ -1,5 +1,10 @@
-import { View, Text, Pressable, StyleSheet, Image, FlatList, ScrollView } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image, FlatList, ScrollView, Alert } from 'react-native';
 import { type NavigationProp, useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+
+import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
+import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFieldInput';
+import Decimal from 'decimal.js';
 
 import type { CartStackParams } from '../../router/Stack/CartStackNavigator';
 
@@ -11,6 +16,9 @@ import { SearchTop } from '../../components/ui/SearchTop';
 import { Button } from '../../components/ui/Button';
 
 import { useCartStore } from '../../store/products/useCartStore';
+import { useAuthStore } from '../../store/auth/useAuthStore';
+import { hermesApi } from '../../../config/api/hermesApi';
+import CustomCardForm from '../../components/cardForm/CustomCardForm';
 
 
 
@@ -19,7 +27,61 @@ import { useCartStore } from '../../store/products/useCartStore';
 export const CartScreen = () => {
 
   const navigation = useNavigation<NavigationProp<CartStackParams>>();
+  const { confirmPayment } = useConfirmPayment();
+
+  const [cardDetails, setCardDetails] = useState<Details>();
+
   const { cart, total } = useCartStore();
+  const { user } = useAuthStore();
+
+
+
+  async function handlePayment() {
+
+    try {
+      const totalInDecimal = new Decimal(total);
+      const amountInCents = totalInDecimal.times(100).toFixed(0);
+
+      const response = await hermesApi.post(`/payment/createPaymentIntent`, {
+        amount: amountInCents,
+      });
+
+      const clientSecret = response.data.clientSecret;
+
+      console.log({ clientSecret });
+
+      // Confirmar el pago con el client secret
+      const { error, paymentIntent } = await confirmPayment(clientSecret, {
+        paymentMethodType: 'Card',
+        paymentMethodData: {
+          billingDetails: {
+            email: user?.email,
+            name: user?.username,
+
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Payment confirmation error', error);
+        // Aquí puedes notificar al usuario sobre el error en el pago
+        Alert.alert(`Pago fallido: ${error.message}`);
+
+      } else if (paymentIntent) {
+        // Notificar al backend que el pago fue exitoso
+        await hermesApi.post(`/orders/createOrder`, {
+          paymentId: paymentIntent.id,
+          cartItems: cart, // Array de productos en el carrito
+        });
+
+        Alert.alert(`Compra realizada correctamente`);
+      }
+    } catch (error) {
+      console.log({error});
+      throw new Error(JSON.stringify(error));
+    }
+
+  }
 
   return (
 
@@ -40,7 +102,7 @@ export const CartScreen = () => {
         ? (<Text style={{ alignSelf: 'center', paddingTop: 200 }}>Cart empty...</Text>)
         :
         (
-          <View style={{ paddingHorizontal: 10, flex:1}}>
+          <View style={{ paddingHorizontal: 10, flex: 1 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <FlatList
                 data={cart}
@@ -103,13 +165,37 @@ export const CartScreen = () => {
 
               </View>
 
+
               {/* checkout */}
               <View style={styles.checkoutAction}>
+
+              {/* <CustomCardForm total={total} user={user!}/> */}
+              <CardField
+                postalCodeEnabled={false}
+                placeholders={{
+                  number: '4242 4242 4242 4242',
+                }}
+                cardStyle={{
+                  backgroundColor: '#FFFFFF',
+                  textColor: '#000000',
+                }}
+                style={{
+                  width: '100%',
+                  height: 50,
+                  // marginVertical: 30,
+                  marginBottom:20
+                }}
+                onCardChange={(cardDetails) => {
+                  setCardDetails(cardDetails);
+                }}
+              />
+
                 <Button
-                  onPress={() => { console.log(JSON.stringify(cart)); }}
+                  onPress={() => handlePayment()}
                   styleContainer={styles.btnCheckout}
                   styleText={styles.btnCheckoutText}
                   text="Proced to checkout"
+                  disabled={ !cardDetails?.complete}
                 />
 
               </View>
@@ -194,7 +280,7 @@ const styles = StyleSheet.create({
 
   /* checkout */
   checkoutAction: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   btnCheckout: {
     flexDirection: 'row',
