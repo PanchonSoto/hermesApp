@@ -169,7 +169,7 @@ export const authStyles = StyleSheet.create({
     height: 50,
     backgroundColor: '#fff',
     paddingHorizontal: 16,
-    borderRadius: 12,
+    borderRadius: 8,
     fontSize: 15,
     fontWeight: '500',
     // color: '#222',

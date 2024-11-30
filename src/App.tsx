@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient,QueryClientProvider } from '@tanstack/react-query';
 import { StripeProvider } from '@stripe/stripe-react-native';
+import Toast from 'react-native-toast-message';
 
 import { ThemeProvider } from './presentation/context/ThemeContext';
 
@@ -26,6 +27,7 @@ export const App = () => {
           <ThemeProvider>
             {/* <TabNavigator /> */}
             <AuthProvider />
+            <Toast />
           </ThemeProvider>
         </QueryClientProvider>
       </SafeAreaProvider>

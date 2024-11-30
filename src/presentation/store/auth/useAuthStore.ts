@@ -4,8 +4,9 @@ import { create } from "zustand";
 // import { authCheckStatus, authLogin } from "../../actions/auth/auth";
 import { StorageHelper } from "../../../config/helpers/storage-helper";
 import { authCheckStatus, authLogin, authRegister } from "../../../actions/auth/auth";
+import { updateUserInfo } from "../../../actions/user/update-user-info";
 
-import type{ User } from '../../../infrastructure/interfaces/auth/auth.responses';
+import type{ User, UserInfo } from '../../../infrastructure/interfaces/auth/auth.responses';
 
 
 type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated'
@@ -14,11 +15,14 @@ export interface AuthState {
     status: AuthStatus;
     token?: string;
     user?: User;
+    userInfo?: UserInfo;
 
     register: (username:string,email:string,password:string)=>Promise<boolean>;
     login: (email:string, password:string) => Promise<boolean>;
     checkStatus: ()=>Promise<void>;
     logout: ()=>Promise<void>;
+
+    updateUser: (userInfo:any)=>Promise<boolean>;
 }
 
 
@@ -31,6 +35,7 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
     status: 'checking',
     token: undefined,
     user: undefined,
+    userInfo: undefined,
 
 
     register: async(username, email, password)=>{
@@ -41,7 +46,7 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
         }
         console.log({res});
         await StorageHelper.setItem('token', res.token);
-        set({status:'authenticated', token:res.token, user:res.user});
+        set({status:'authenticated', token:res.token, user:res.user, userInfo:res.user_info});
         return true;
     },
 
@@ -54,7 +59,7 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
 
         await StorageHelper.setItem('token', res.token);
 
-        set({status:'authenticated', token:res.token, user:res.user});
+        set({status:'authenticated', token:res.token, user:res.user, userInfo:res.user_info});
         return true;
 
         //!local test
@@ -78,12 +83,12 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
         const res = await authCheckStatus();
 
         if(!res) {
-            set({status:'unauthenticated', token:undefined, user:undefined});
+            set({status:'unauthenticated', token:undefined, user:undefined, userInfo:undefined});
             return;
         }
-        const user: User = {id:res.user.id, username: res.user.username, email:res.user.email, created_at:res.user.email }
+        // const user: User = {id:res.user.id, username: res.user.username, email:res.user.email, created_at:res.user.email }
         // await StorageHelper.setItem('token', res.token);
-        set({status:'authenticated', user:user});
+        set({status:'authenticated', user:res.user, userInfo:res.user_info});
 
         //!local test
         // setTimeout(async() => {
@@ -100,5 +105,17 @@ export const useAuthStore = create<AuthState>()((set,get)=>({
     logout: async()=> {
         await StorageHelper.removeItem('token');
         set({status:'unauthenticated', token:undefined, user:undefined});
+    },
+
+    updateUser: async(userInfo) => {
+        const currentUser = get().user;
+        const res = await updateUserInfo(userInfo);
+        if(!res) {
+            return false;
+        }
+
+        set({userInfo:res.updatedUserInfo, user: (res.updateUser)?res.updateUser: currentUser});
+        return true;
+
     },
 }));

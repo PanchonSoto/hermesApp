@@ -125,7 +125,7 @@ export const CartScreen = () => {
                       style={styles.row}>
                       <Text style={styles.rowLabel}>Products total:</Text>
                       <View style={styles.rowSpacer} />
-                      <Text style={styles.rowLabel}>$1400</Text>
+                      <Text style={styles.rowLabel}>${total}</Text>
                     </Pressable>
                   </View>
                   <View style={styles.rowWrapper}>
@@ -147,7 +147,7 @@ export const CartScreen = () => {
                       style={styles.row}>
                       <Text style={styles.rowLabel}>Subtotal:</Text>
                       <View style={styles.rowSpacer} />
-                      <Text style={styles.rowLabel}>$1410</Text>
+                      <Text style={styles.rowLabel}>${total}</Text>
                     </Pressable>
                   </View>
                   <View style={[styles.rowWrapper, styles.rowLast]}>
@@ -158,7 +158,7 @@ export const CartScreen = () => {
                       style={styles.row}>
                       <Text style={styles.rowLabel}>Total (taxes included):</Text>
                       <View style={styles.rowSpacer} />
-                      <Text style={styles.rowLabel}>$1410</Text>
+                      <Text style={styles.rowLabel}>${total+10}</Text>
                     </Pressable>
                   </View>
                 </View>
