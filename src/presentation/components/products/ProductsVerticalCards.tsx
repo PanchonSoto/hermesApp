@@ -58,7 +58,7 @@ const ProductsVerticalCards = ({ isLoading, data, recenltyProducts, nextPage }: 
             <Image style={styles.cardImageV} source={{ uri: item?.imageurl }} />
 
             <Text style={[globalStyles.subtitle, { marginTop: 10, }]}>
-                {item?.name}
+                {item?.name.slice(0,14)}...
             </Text>
 
             <Text style={[styles.listTitle, { marginVertical: 10, }]}>${item?.price}</Text>

@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 import { hermesApi } from "../../config/api/hermesApi";
-import type { AuthResponse } from "../../infrastructure/interfaces/auth/auth.responses";
+import type { AuthCheck, AuthResponse } from "../../infrastructure/interfaces/auth/auth.responses";
 
 
 
@@ -8,7 +8,7 @@ import type { AuthResponse } from "../../infrastructure/interfaces/auth/auth.res
 export const authCheckStatus = async() => {
 
     try {
-        const {data} = await hermesApi.get<any>('/auth/check-status');
+        const {data} = await hermesApi.get<AuthCheck>('/auth/check-status');
 
         return data;
 

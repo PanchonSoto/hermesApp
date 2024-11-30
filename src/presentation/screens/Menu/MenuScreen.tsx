@@ -1,13 +1,18 @@
 import { View, Text, StyleSheet, Pressable, ScrollView, Image } from "react-native";
 
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+
 import { CustomView } from "../../components/ui/CustomView"
-import { useAuthStore } from "../../store/auth/useAuthStore";
 import { CustomIcon } from "../../components/ui/CustomIcon";
+
+import { useAuthStore } from "../../store/auth/useAuthStore";
+import { MenuStackParams } from "../../router/Stack/MenuStackNavigator";
 
 
 export const MenuScreen = () => {
 
   const { logout, user } = useAuthStore();
+  const navigation = useNavigation<NavigationProp<MenuStackParams>>();
 
 
 
@@ -24,12 +29,12 @@ export const MenuScreen = () => {
         {/* account section */}
         <View style={[styles.section, { paddingTop: 4 }]}>
           <Text style={styles.sectionTitle}>Account</Text>
-          <View style={styles.sectionBody}>
+          <View>
             <Pressable
               onPress={() => {
                 // handle onPress
               }}
-              style={styles.profile}>
+              style={[styles.profile, styles.sectionBody]}>
               <Image
                 alt="Profile image"
                 source={require('../../../assets/profile_blank.webp')}
@@ -48,23 +53,43 @@ export const MenuScreen = () => {
         {/* Config account */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Account config</Text>
-          <View style={styles.sectionBody}>
-            <View style={[styles.rowWrapper, styles.rowFirst]}>
+          <View>
+
+          <View style={[styles.rowWrapper, styles.sectionBody, styles.rowFirst]}>
               <Pressable
                 onPress={() => {
                   // handle onPress
+                  navigation.navigate("EditAccount");
+                }}
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
+                <Text style={styles.rowLabel}>Edit account</Text>
+                <View style={styles.rowSpacer} />
+                {/* <Text style={styles.rowValue}>Los Angeles, CA</Text> */}
+                <CustomIcon
+                  color="#bcbcbc"
+                  name="chevron-forward"
+                  size={19}
+                />
+              </Pressable>
+            </View>
+
+            <View style={[styles.rowWrapper, styles.sectionBody, styles.sectionBody]}>
+              <Pressable
+                onPress={() => {
+                  // handle onPress
+                  // navigation.navigate("AdressScreen");
                 }}
                 style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
                 <Text style={styles.rowLabel}>My address</Text>
                 <View style={styles.rowSpacer} />
-                {/* <Text style={styles.rowValue}>English</Text> */}
                 <CustomIcon
                   color="#bcbcbc"
                   name="chevron-forward"
-                  size={19} />
+                  size={19}
+                />
               </Pressable>
             </View>
-            <View style={styles.rowWrapper}>
+            <View style={[styles.rowWrapper, styles.sectionBody]}>
               <Pressable
                 onPress={() => {
                   // handle onPress
@@ -75,10 +100,11 @@ export const MenuScreen = () => {
                 <CustomIcon
                   color="#bcbcbc"
                   name="chevron-forward"
-                  size={19} />
+                  size={19}
+                />
               </Pressable>
             </View>
-            <View style={styles.rowWrapper}>
+            <View style={[styles.rowWrapper, styles.sectionBody, styles.rowLast]}>
               <Pressable
                 onPress={() => {
                   // handle onPress
@@ -89,31 +115,18 @@ export const MenuScreen = () => {
                 <CustomIcon
                   color="#bcbcbc"
                   name="chevron-forward"
-                  size={19} />
+                  size={19}
+                />
               </Pressable>
             </View>
-            <View style={[styles.rowWrapper, styles.rowLast]}>
-              <Pressable
-                onPress={() => {
-                  // handle onPress
-                }}
-                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
-                <Text style={styles.rowLabel}>Edit account</Text>
-                <View style={styles.rowSpacer} />
-                {/* <Text style={styles.rowValue}>Los Angeles, CA</Text> */}
-                <CustomIcon
-                  color="#bcbcbc"
-                  name="chevron-forward"
-                  size={19} />
-              </Pressable>
-            </View>
+
           </View>
         </View>
         {/* app section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>App</Text>
-          <View style={styles.sectionBody}>
-            <View style={[styles.rowWrapper, styles.rowFirst]}>
+          <View>
+            <View style={[styles.rowWrapper, styles.rowFirst, styles.sectionBody]}>
               <Pressable
                 onPress={() => {
                   // handle onPress
@@ -127,7 +140,7 @@ export const MenuScreen = () => {
                   size={19} />
               </Pressable>
             </View>
-            <View style={styles.rowWrapper}>
+            <View style={[styles.rowWrapper, styles.sectionBody]}>
               <Pressable
                 onPress={() => {
                   // handle onPress
@@ -141,7 +154,7 @@ export const MenuScreen = () => {
                   size={19} />
               </Pressable>
             </View>
-            <View style={[styles.rowWrapper, styles.rowLast]}>
+            <View style={[styles.rowWrapper, styles.rowLast, styles.sectionBody]}>
               <Pressable
                 onPress={() => {
                   // handle onPress
@@ -157,13 +170,14 @@ export const MenuScreen = () => {
             </View>
           </View>
         </View>
-        <View style={[styles.section, {marginTop:50}]}>
-          <View style={styles.sectionBody}>
+        <View style={[styles.section, {marginTop:20}]}>
+          <View>
             <View
               style={[
                 styles.rowWrapper,
                 styles.rowFirst,
                 styles.rowLast,
+                styles.sectionBody,
                 { alignItems: 'center' },
               ]}>
               <Pressable
@@ -239,21 +253,19 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   sectionBody: {
-    borderRadius: 12,
-    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
     },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: 1,
     elevation: 1,
   },
   /** Profile */
   profile: {
     padding: 12,
     backgroundColor: '#fff',
-    borderRadius: 12,
+    borderRadius: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -294,8 +306,8 @@ const styles = StyleSheet.create({
     borderColor: '#f0f0f0',
   },
   rowFirst: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
   },
   rowLabel: {
     fontSize: 16,
@@ -314,8 +326,8 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   rowLast: {
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
   },
   rowLabelLogout: {
     width: '100%',

@@ -49,7 +49,7 @@ export const RegisterScreen = () => {
     setIsPosting(false);
   }
 
-  const [formError, setError] = useState<Boolean>(false)
+  const [formError, setError] = useState<Boolean>(false);
 
   const onError: SubmitErrorHandler<FormValues> = (errors, e) => {
     return console.log({ errors })
@@ -58,7 +58,7 @@ export const RegisterScreen = () => {
   // renderCount++;
 
   return (
-    <CustomView style={[globalStyles.container, { paddingTop: top, paddingBottom: bottom }]}>
+    <CustomView style={[globalStyles.container, { paddingBottom: bottom }]}>
 
       {formError ? <View><Text style={{ color: 'red' }}>There was a problem with loading the form. Please try again later.</Text></View> :
         <ScrollView
