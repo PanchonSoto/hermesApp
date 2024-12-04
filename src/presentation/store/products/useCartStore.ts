@@ -18,6 +18,7 @@ export interface Cart {
   deleteProductCart: (id: number) => void;
   addProductToCart: (product: Products, quantity: number) => void;
   updatePrice: () => void;
+  resetCart: () => void;
 }
 
 export const useCartStore = create<Cart>()((set, get) => ({
@@ -82,4 +83,6 @@ export const useCartStore = create<Cart>()((set, get) => ({
     }
     get().updatePrice();
   },
+
+  resetCart: () => set(() => ({ cart: [], total:0 })),
 }));

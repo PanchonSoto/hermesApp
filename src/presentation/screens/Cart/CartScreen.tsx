@@ -1,6 +1,7 @@
 import { View, Text, Pressable, StyleSheet, Image, FlatList, ScrollView, Alert } from 'react-native';
 import { type NavigationProp, useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFieldInput';
@@ -15,11 +16,9 @@ import { CustomView } from '../../components/ui/CustomView';
 import { SearchTop } from '../../components/ui/SearchTop';
 import { Button } from '../../components/ui/Button';
 
+import { hermesApi } from '../../../config/api/hermesApi';
 import { useCartStore } from '../../store/products/useCartStore';
 import { useAuthStore } from '../../store/auth/useAuthStore';
-import { hermesApi } from '../../../config/api/hermesApi';
-import CustomCardForm from '../../components/cardForm/CustomCardForm';
-
 
 
 
@@ -27,11 +26,12 @@ import CustomCardForm from '../../components/cardForm/CustomCardForm';
 export const CartScreen = () => {
 
   const navigation = useNavigation<NavigationProp<CartStackParams>>();
+  const queryClient = useQueryClient();
   const { confirmPayment } = useConfirmPayment();
 
   const [cardDetails, setCardDetails] = useState<Details>();
 
-  const { cart, total } = useCartStore();
+  const { cart, total, resetCart } = useCartStore();
   const { user } = useAuthStore();
 
 
@@ -48,9 +48,6 @@ export const CartScreen = () => {
 
       const clientSecret = response.data.clientSecret;
 
-      console.log({ clientSecret });
-
-      // Confirmar el pago con el client secret
       const { error, paymentIntent } = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
         paymentMethodData: {
@@ -64,17 +61,21 @@ export const CartScreen = () => {
 
       if (error) {
         console.error('Payment confirmation error', error);
-        // Aquí puedes notificar al usuario sobre el error en el pago
+
         Alert.alert(`Pago fallido: ${error.message}`);
 
       } else if (paymentIntent) {
-        // Notificar al backend que el pago fue exitoso
+
         await hermesApi.post(`/orders/createOrder`, {
           paymentId: paymentIntent.id,
-          cartItems: cart, // Array de productos en el carrito
+          cartItems: cart,
         });
 
         Alert.alert(`Compra realizada correctamente`);
+
+        queryClient.invalidateQueries({queryKey:['orders', 'infinite']});
+        resetCart();
+
       }
     } catch (error) {
       console.log({error});

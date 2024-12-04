@@ -73,6 +73,23 @@ export const MenuScreen = () => {
               </Pressable>
             </View>
 
+            <View style={[styles.rowWrapper, styles.sectionBody]}>
+              <Pressable
+                onPress={() => {
+                  // handle onPress
+                  navigation.navigate("OrdersScreen");
+                }}
+                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
+                <Text style={styles.rowLabel}>My purchases</Text>
+                <View style={styles.rowSpacer} />
+                <CustomIcon
+                  color="#bcbcbc"
+                  name="chevron-forward"
+                  size={19}
+                />
+              </Pressable>
+            </View>
+
             <View style={[styles.rowWrapper, styles.sectionBody, styles.sectionBody]}>
               <Pressable
                 onPress={() => {
@@ -89,21 +106,7 @@ export const MenuScreen = () => {
                 />
               </Pressable>
             </View>
-            <View style={[styles.rowWrapper, styles.sectionBody]}>
-              <Pressable
-                onPress={() => {
-                  // handle onPress
-                }}
-                style={({pressed})=>[styles.row,{ opacity: pressed ? 0.5 : 1, }]}>
-                <Text style={styles.rowLabel}>My purchases</Text>
-                <View style={styles.rowSpacer} />
-                <CustomIcon
-                  color="#bcbcbc"
-                  name="chevron-forward"
-                  size={19}
-                />
-              </Pressable>
-            </View>
+
             <View style={[styles.rowWrapper, styles.sectionBody, styles.rowLast]}>
               <Pressable
                 onPress={() => {
